@@ -8,12 +8,13 @@ import indexRoutes from "./routes/index.routes.js";
 import generosRoutes from "./routes/generos.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import usuariosRoutes from "./routes/usuarios.routes.js";
-import noticiasRoutes from "./routes/noticias.routes.js"
-import plataformasRoutes from "./routes/plataformas.routes.js"
-import editorasRoutes from "./routes/editoras.routes.js"
-import desarrolladoresRoutes from "./routes/desarrolladores.routes.js"
-import imagenesRoutes from "./routes/imagenes.routes.js"
-import productosRoutes from "./routes/productos.routes.js"
+import noticiasRoutes from "./routes/noticias.routes.js";
+import plataformasRoutes from "./routes/plataformas.routes.js";
+import editorasRoutes from "./routes/editoras.routes.js";
+import desarrolladoresRoutes from "./routes/desarrolladores.routes.js";
+import imagenesRoutes from "./routes/imagenes.routes.js";
+import productosRoutes from "./routes/productos.routes.js";
+import carritoRoutes from "./routes/carrito.routes.js";
 const app = express();
 
 app.use(
@@ -24,20 +25,23 @@ app.use(
 );
 app.use(morgan("dev"));
 app.use(express.json());
-app.use(fileUpload({
-  useTempFiles: true,
-  tempFileDir: "./upload"
-}))
+app.use(
+  fileUpload({
+    useTempFiles: true,
+    tempFileDir: "./upload",
+  })
+);
 app.use(cookieParser());
 app.use("/api", authRoutes);
-app.use("/api",indexRoutes);
-app.use("/api",generosRoutes);
-app.use("/api",usuariosRoutes);
-app.use("/api",noticiasRoutes);
-app.use("/api",desarrolladoresRoutes);
-app.use("/api",editorasRoutes);
-app.use("/api",plataformasRoutes);
-app.use("/api",imagenesRoutes);
-app.use("/api",productosRoutes);
+app.use("/api", indexRoutes);
+app.use("/api", generosRoutes);
+app.use("/api", usuariosRoutes);
+app.use("/api", noticiasRoutes);
+app.use("/api", desarrolladoresRoutes);
+app.use("/api", editorasRoutes);
+app.use("/api", plataformasRoutes);
+app.use("/api", imagenesRoutes);
+app.use("/api", productosRoutes);
+app.use("/api", carritoRoutes);
 app.listen(PORT);
 console.log("Server is listening on port " + PORT);
