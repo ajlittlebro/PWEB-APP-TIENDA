@@ -29,11 +29,12 @@ export const getNoticia = async (req, res) => {
 
 export const createNoticia = async (req, res) => {
   try {
-    const { titulo, descripcion, fecha,usuario/*, imagen */} = req.body;
+    const { titulo, descripcion, fecha,id_usuario/*, imagen */} = req.body;
+    //if()
     const [result] = await pool.query(
       /*"INSERT INTO noticias(titulo, id_usuario, descripcion, fecha, imagen) VALUES (?, ?, ?, ?)",*/
       "INSERT INTO noticias(titulo, id_usuario, descripcion, fecha) VALUES (?, ?, ?, ?)",
-      [titulo,usuario,  descripcion, fecha/*imagen*/]
+      [titulo,id_usuario,  descripcion, fecha/*imagen*/]
     );
     const [registro] = await pool.query(
       "SELECT creadaEn, actualizadoEn FROM noticias WHERE id_noticia = ?",
@@ -46,7 +47,7 @@ export const createNoticia = async (req, res) => {
       descripcion,
       fecha,
       /*imagen*/
-      usuario,
+      id_usuario,
       creadaEn: registro[0].creadaEn,
       actualizadoEn: registro[0].actualizadoEn,
     });

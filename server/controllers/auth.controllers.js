@@ -31,7 +31,7 @@ export const login = async (req, res) => {
     res.json({
       id: usuario.id_usuario,
       nombre: usuario.nombre,
-      rol: usuario.rol,
+      id_rol: usuario.id_rol,
       correo: usuario.correo,
       creadaEn: registro[0].creadaEn,
       actualizadoEn: registro[0].actualizadoEn,
@@ -43,7 +43,7 @@ export const login = async (req, res) => {
 
 export const register = async (req, res) => {
   try {
-    const { nombre, rol, correo, contrasena } = req.body;
+    const { nombre, id_rol, correo, contrasena } = req.body;
 
     const [email] = await pool.query("SELECT * FROM usuarios WHERE correo= ?", [
       correo,
@@ -54,8 +54,8 @@ export const register = async (req, res) => {
 
     const hashContrasena = await bcrypt.hash(contrasena, 10);
     const [result] = await pool.query(
-      "INSERT INTO usuarios(nombre, rol, correo, contrasena) VALUES (?, ?, ?, ?)",
-      [nombre, rol, correo, hashContrasena]
+      "INSERT INTO usuarios(nombre, id_rol, correo, contrasena) VALUES (?, ?, ?, ?)",
+      [nombre, id_rol, correo, hashContrasena]
     );
     const [registro] = await pool.query(
       "SELECT creadaEn, actualizadoEn FROM usuarios WHERE id_usuario = ?",
@@ -68,7 +68,7 @@ export const register = async (req, res) => {
     res.json({
       id: result.insertId,
       nombre,
-      rol,
+      id_rol,
       correo,
       creadaEn: registro[0].creadaEn,
       actualizadoEn: registro[0].actualizadoEn,
@@ -106,7 +106,7 @@ export const profile = async (req, res) => {
     res.json({
       id: usuario.id_usuario,
       nombre: usuario.nombre,
-      rol: usuario.rol,
+      id_rol: usuario.id_rol,
       correo: usuario.correo,
       creadaEn: registro[0].creadaEn,
       actualizadoEn: registro[0].actualizadoEn,
@@ -137,7 +137,7 @@ export const verifyToken = async (req, res) => {
     res.json({
       id: usuario.id_usuario,
       nombre: usuario.nombre,
-      rol: usuario.rol,
+      id_rol: usuario.id_rol,
       correo: usuario.correo,
     });
   } catch (error) {

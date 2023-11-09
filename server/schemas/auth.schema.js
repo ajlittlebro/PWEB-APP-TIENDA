@@ -18,7 +18,7 @@ export const registerSchema = z.object({
     .min(6, {
       message: "Password must be at least 6 characters",
     }),
-  rol: z.string({
+  id_rol: z.number({
     required_error: "Rol is required",
   }),
 });

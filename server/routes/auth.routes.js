@@ -4,7 +4,7 @@ import {
   register,
   logout,
   profile,
-  verifyToken
+  verifyToken,
 } from "../controllers/auth.controllers.js";
 import { authRequired } from "../middlewares/validateToken.js";
 import { validateSchema } from "../middlewares/validator.middleware.js";

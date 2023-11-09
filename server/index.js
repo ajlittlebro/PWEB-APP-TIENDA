@@ -9,6 +9,9 @@ import generosRoutes from "./routes/generos.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import usuariosRoutes from "./routes/usuarios.routes.js";
 import noticiasRoutes from "./routes/noticias.routes.js"
+import plataformasRoutes from "./routes/plataformas.routes.js"
+import editorasRoutes from "./routes/editoras.routes.js"
+import desarrolladoresRoutes from "./routes/desarrolladores.routes.js"
 const app = express();
 
 app.use(
@@ -29,5 +32,8 @@ app.use("/api",indexRoutes);
 app.use("/api",generosRoutes);
 app.use("/api",usuariosRoutes);
 app.use("/api",noticiasRoutes);
+app.use("/api",desarrolladoresRoutes);
+app.use("/api",editorasRoutes);
+app.use("/api",plataformasRoutes);
 app.listen(PORT);
 console.log("Server is listening on port " + PORT);
