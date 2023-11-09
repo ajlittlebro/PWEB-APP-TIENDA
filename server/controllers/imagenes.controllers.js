@@ -65,7 +65,7 @@ export const createImagen = async (req, res) => {
   }
 };
 
-export const deleteNoticia = async (req, res) => {
+export const deleteImagen = async (req, res) => {
   try {
     const [result] = await pool.query(
       "SELECT imagen FROM imagenes WHERE id_imagen = ?",
@@ -96,7 +96,7 @@ export const deleteNoticia = async (req, res) => {
   }
 };
 
-export const updateNoticia = async (req, res) => {
+export const updateImagen = async (req, res) => {
   try {
     const [result] = await pool.query(
       "UPDATE imagenes SET ? WHERE id_imagen = ?",

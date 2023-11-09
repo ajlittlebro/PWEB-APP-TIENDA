@@ -12,6 +12,8 @@ import noticiasRoutes from "./routes/noticias.routes.js"
 import plataformasRoutes from "./routes/plataformas.routes.js"
 import editorasRoutes from "./routes/editoras.routes.js"
 import desarrolladoresRoutes from "./routes/desarrolladores.routes.js"
+import imagenesRoutes from "./routes/imagenes.routes.js"
+import productosRoutes from "./routes/productos.routes.js"
 const app = express();
 
 app.use(
@@ -35,5 +37,7 @@ app.use("/api",noticiasRoutes);
 app.use("/api",desarrolladoresRoutes);
 app.use("/api",editorasRoutes);
 app.use("/api",plataformasRoutes);
+app.use("/api",imagenesRoutes);
+app.use("/api",productosRoutes);
 app.listen(PORT);
 console.log("Server is listening on port " + PORT);
