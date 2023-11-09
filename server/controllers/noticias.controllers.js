@@ -31,7 +31,7 @@ export const getNoticia = async (req, res) => {
 export const createNoticia = async (req, res) => {
   try {
     const { titulo, descripcion, fecha, id_usuario } = req.body;
-    let imagen = null; // Inicializa la variable de imagen como nula
+    let imagen = null;
 
     if (req.files.image) {
       const resultado = await uploadImagen(req.files.image.tempFilePath);
@@ -64,7 +64,7 @@ export const createNoticia = async (req, res) => {
       titulo,
       descripcion,
       fecha,
-      imagen: imagen, // Usa la variable 'image'
+      imagen: imagen,
       id_usuario,
       creadaEn: registro[0].creadaEn,
       actualizadoEn: registro[0].actualizadoEn,
@@ -74,10 +74,8 @@ export const createNoticia = async (req, res) => {
   }
 };
 
-
 export const deleteNoticia = async (req, res) => {
   try {
-    // Obtén la URL de la imagen de la base de datos
     const [result] = await pool.query(
       "SELECT imagen FROM noticias WHERE id_noticia = ?",
       [req.params.id]
@@ -87,21 +85,18 @@ export const deleteNoticia = async (req, res) => {
       return res.status(404).json({ message: "Noticia no encontrada" });
     }
 
-    // Extrae la parte de la URL que necesitas
     const imageUrl = result[0].imagen;
     const publicId = imageUrl.match(/ImagenesPWEB\/[\w-]+/)[0];
 
-    // Elimina la imagen de Cloudinary
     await deleteImagen(publicId);
 
-    // Ahora que la imagen se ha eliminado de Cloudinary, puedes eliminar el registro en la base de datos
     const [deleteResult] = await pool.query(
       "DELETE FROM noticias WHERE id_noticia = ?",
       [req.params.id]
     );
 
     if (deleteResult.affectedRows === 0) {
-      return res.status(404).json({ message: "Noticia no encontrada en la base de datos" });
+      return res.status(404).json({ message: "Noticia no encontrada" });
     }
 
     return res.sendStatus(204);
@@ -109,8 +104,6 @@ export const deleteNoticia = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
-
-
 
 export const updateNoticia = async (req, res) => {
   try {
