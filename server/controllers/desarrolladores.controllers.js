@@ -3,7 +3,7 @@ import { pool } from "../db.js";
 export const getDesarrolladores = async (req, res) => {
   try {
     const [result] = await pool.query(
-      "SELECT * FROM desarrolladores ORDER BY creadaEn ASC"
+      "SELECT * FROM desarrolladores ORDER BY id_desarrollador ASC"
     );
     console.log(result);
     res.json(result);

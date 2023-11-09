@@ -65,7 +65,7 @@ export const createImagen = async (req, res) => {
   }
 };
 
-export const deleteImagen = async (req, res) => {
+export const deleteImage = async (req, res) => {
   try {
     const [result] = await pool.query(
       "SELECT imagen FROM imagenes WHERE id_imagen = ?",
@@ -98,13 +98,53 @@ export const deleteImagen = async (req, res) => {
 
 export const updateImagen = async (req, res) => {
   try {
-    const [result] = await pool.query(
-      "UPDATE imagenes SET ? WHERE id_imagen = ?",
-      [req.body, req.params.id]
+    
+    const nuevaImagen = req.files?.image;
+
+    
+    const [imagenExistente] = await pool.query(
+      "SELECT imagen FROM imagenes WHERE id_imagen = ?",
+      [req.params.id]
     );
 
-    if (result.affectedRows === 0)
+    if (imagenExistente.length === 0) {
       return res.status(404).json({ message: "Imagen no encontrada" });
+    }
+
+    
+    if (nuevaImagen && imagenExistente[0].imagen) {
+      const imageUrl = imagenExistente[0].imagen;
+      const publicIdMatch = imageUrl.match(/ImagenesPWEB\/[\w-]+/);
+      if (publicIdMatch) {
+        const publicId = publicIdMatch[0];
+        await deleteImagen(publicId);
+      }
+    }
+
+    
+    let imagen = null;
+    if (nuevaImagen) {
+      const resultado = await uploadImagen(nuevaImagen.tempFilePath);
+      await fs.remove(nuevaImagen.tempFilePath);
+      imagen = {
+        url: resultado.secure_url,
+        public_id: resultado.public_id,
+      };
+    }
+
+    
+    const [result] = await pool.query(
+      "UPDATE imagenes SET id_producto = ?, imagen = ? WHERE id_imagen = ?",
+      [
+        req.body.id_producto,
+        imagen ? imagen.url : imagenExistente[0].imagen, 
+        req.params.id,
+      ]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "Imagen no encontrada" });
+    }
 
     res.json(result);
   } catch (error) {

@@ -3,7 +3,7 @@ import { pool } from "../db.js";
 export const getEditoras = async (req, res) => {
   try {
     const [result] = await pool.query(
-      "SELECT * FROM editoras ORDER BY creadaEn ASC"
+      "SELECT * FROM editoras ORDER BY id_editora ASC"
     );
     console.log(result);
     res.json(result);

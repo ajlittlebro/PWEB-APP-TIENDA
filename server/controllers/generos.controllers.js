@@ -15,7 +15,7 @@ export const getGeneros = async (req, res) => {
 export const getGenero = async (req, res) => {
   try {
     const [result] = await pool.query(
-      "SELECT * FROM generos WHERE id_generos = ?",
+      "SELECT * FROM generos WHERE id_genero = ?",
       [req.params.id]
     );
     if (result.length === 0) {
@@ -46,7 +46,7 @@ export const createGenero = async (req, res) => {
 export const deleteGenero = async (req, res) => {
   try {
     const [result] = await pool.query(
-      "DELETE FROM generos WHERE id_generos = ?",
+      "DELETE FROM generos WHERE id_genero = ?",
       [req.params.id]
     );
     if (result.affectedRows === 0)
@@ -63,7 +63,7 @@ export const deleteGenero = async (req, res) => {
 export const updateGenero = async (req, res) => {
   try {
     const [result] = await pool.query(
-      "UPDATE generos SET ? WHERE id_generos = ?",
+      "UPDATE generos SET ? WHERE id_genero = ?",
       [req.body, req.params.id]
     );
 

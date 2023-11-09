@@ -32,8 +32,9 @@ export const createProducto = async (req, res) => {
   try {
     const {
       nombre,
+      precio,
       descripcion,
-      fecha,
+      fecha_lanzamiento,
       id_editora,
       id_desarrollador,
       id_plataforma,
@@ -51,11 +52,12 @@ export const createProducto = async (req, res) => {
     }
 
     const [result] = await pool.query(
-      "INSERT INTO productos(nombre, descripcion, fecha, id_editora, id_desarrollador, id_plataforma, existencia) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO productos(nombre, precio, descripcion, fecha_lanzamiento, id_editora, id_desarrollador, id_plataforma, existencia, imagen) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
       [
         nombre,
+        precio,
         descripcion,
-        fecha,
+        fecha_lanzamiento,
         id_editora,
         id_desarrollador,
         id_plataforma,
@@ -74,7 +76,7 @@ export const createProducto = async (req, res) => {
       id: result.insertId,
       nombre,
       descripcion,
-      fecha,
+      fecha_lanzamiento,
       imagen: imagen,
       existencia,
       id_desarrollador,
@@ -121,13 +123,60 @@ export const deleteProducto = async (req, res) => {
 
 export const updateProducto = async (req, res) => {
   try {
-    const [result] = await pool.query(
-      "UPDATE productos SET ? WHERE id_producto = ?",
-      [req.body, req.params.id]
+    // Verificar si se ha proporcionado una nueva imagen en la solicitud.
+    const nuevaImagen = req.files?.image;
+
+    // Obtener el producto existente
+    const [productoExistente] = await pool.query(
+      "SELECT imagen FROM productos WHERE id_producto = ?",
+      [req.params.id]
     );
 
-    if (result.affectedRows === 0)
+    if (productoExistente.length === 0) {
       return res.status(404).json({ message: "Producto no encontrado" });
+    }
+
+    // Eliminar la imagen anterior de Cloudinary si existe.
+    if (nuevaImagen && productoExistente[0].imagen) {
+      const imageUrl = productoExistente[0].imagen;
+      const publicIdMatch = imageUrl.match(/ImagenesPWEB\/[\w-]+/);
+      if (publicIdMatch) {
+        const publicId = publicIdMatch[0];
+        await deleteImagen(publicId);
+      }
+    }
+
+    // Subir la nueva imagen a Cloudinary y obtener su URL y public_id
+    let imagen = null;
+    if (nuevaImagen) {
+      const resultado = await uploadImagen(nuevaImagen.tempFilePath);
+      await fs.remove(nuevaImagen.tempFilePath);
+      imagen = {
+        url: resultado.secure_url,
+        public_id: resultado.public_id,
+      };
+    }
+
+    // Actualizar los detalles del producto en la base de datos, incluyendo la URL de la imagen.
+    const [result] = await pool.query(
+      "UPDATE productos SET nombre = ?, precio = ?, descripcion = ?, fecha_lanzamiento = ?, id_editora = ?, id_desarrollador = ?, id_plataforma = ?, existencia = ?, imagen = ? WHERE id_producto = ?",
+      [
+        req.body.nombre,
+        req.body.precio,
+        req.body.descripcion,
+        req.body.fecha_lanzamiento,
+        req.body.id_editora,
+        req.body.id_desarrollador,
+        req.body.id_plataforma,
+        req.body.existencia,
+        imagen ? imagen.url : productoExistente[0].imagen, // Usar la nueva imagen si existe, o la existente si no
+        req.params.id,
+      ]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "Producto no encontrado" });
+    }
 
     res.json(result);
   } catch (error) {

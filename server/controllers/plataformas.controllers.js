@@ -3,7 +3,7 @@ import { pool } from "../db.js";
 export const getPlataformas = async (req, res) => {
   try {
     const [result] = await pool.query(
-      "SELECT * FROM plataformas ORDER BY creadaEn ASC"
+      "SELECT * FROM plataformas ORDER BY id_plataforma ASC"
     );
     console.log(result);
     res.json(result);
