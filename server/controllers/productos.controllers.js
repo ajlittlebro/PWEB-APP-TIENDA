@@ -87,19 +87,16 @@ export const createProducto = async (req, res) => {
       [result.insertId]
     );
 
-    // Obtén el nombre de la editora
     const [editoraInfo] = await pool.query(
       "SELECT nombre FROM editoras WHERE id_editora = ?",
       [id_editora]
     );
 
-    // Obtén el nombre del desarrollador
     const [desarrolladorInfo] = await pool.query(
       "SELECT nombre FROM desarrolladores WHERE id_desarrollador = ?",
       [id_desarrollador]
     );
 
-    // Obtén el nombre de la plataforma
     const [plataformaInfo] = await pool.query(
       "SELECT nombre FROM plataformas WHERE id_plataforma = ?",
       [id_plataforma]
@@ -160,10 +157,8 @@ export const deleteProducto = async (req, res) => {
 
 export const updateProducto = async (req, res) => {
   try {
-    // Verificar si se ha proporcionado una nueva imagen en la solicitud.
     const nuevaImagen = req.files?.image;
 
-    // Obtener el producto existente
     const [productoExistente] = await pool.query(
       "SELECT imagen FROM productos WHERE id_producto = ?",
       [req.params.id]
@@ -173,7 +168,6 @@ export const updateProducto = async (req, res) => {
       return res.status(404).json({ message: "Producto no encontrado" });
     }
 
-    // Eliminar la imagen anterior de Cloudinary si existe.
     if (nuevaImagen && productoExistente[0].imagen) {
       const imageUrl = productoExistente[0].imagen;
       const publicIdMatch = imageUrl.match(/ImagenesPWEB\/[\w-]+/);
@@ -183,7 +177,6 @@ export const updateProducto = async (req, res) => {
       }
     }
 
-    // Subir la nueva imagen a Cloudinary y obtener su URL y public_id
     let imagen = null;
     if (nuevaImagen) {
       const resultado = await uploadImagen(nuevaImagen.tempFilePath);
@@ -194,7 +187,6 @@ export const updateProducto = async (req, res) => {
       };
     }
 
-    // Actualizar los detalles del producto en la base de datos, incluyendo la URL de la imagen.
     const [result] = await pool.query(
       "UPDATE productos SET nombre = ?, precio = ?, descripcion = ?, fecha_lanzamiento = ?, id_editora = ?, id_desarrollador = ?, id_plataforma = ?, existencia = ?, imagen = ? WHERE id_producto = ?",
       [
@@ -206,7 +198,7 @@ export const updateProducto = async (req, res) => {
         req.body.id_desarrollador,
         req.body.id_plataforma,
         req.body.existencia,
-        imagen ? imagen.url : productoExistente[0].imagen, // Usar la nueva imagen si existe, o la existente si no
+        imagen ? imagen.url : productoExistente[0].imagen,
         req.params.id,
       ]
     );
