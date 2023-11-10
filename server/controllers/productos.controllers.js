@@ -1,11 +1,19 @@
 import { pool } from "../db.js";
 import { deleteImagen, uploadImagen } from "../libs/cloudinary.js";
 import fs from "fs-extra";
+
 export const getProductos = async (req, res) => {
   try {
-    const [result] = await pool.query(
-      "SELECT * FROM productos ORDER BY creadaEn ASC"
-    );
+    const productosQuery = `
+      SELECT p.*, e.nombre AS nombre_editora, d.nombre AS nombre_desarrollador, pl.nombre AS nombre_plataforma
+      FROM productos p
+      LEFT JOIN editoras e ON p.id_editora = e.id_editora
+      LEFT JOIN desarrolladores d ON p.id_desarrollador = d.id_desarrollador
+      LEFT JOIN plataformas pl ON p.id_plataforma = pl.id_plataforma
+      ORDER BY p.creadaEn ASC
+    `;
+
+    const [result] = await pool.query(productosQuery);
     console.log(result);
     res.json(result);
   } catch (error) {
@@ -15,10 +23,16 @@ export const getProductos = async (req, res) => {
 
 export const getProducto = async (req, res) => {
   try {
-    const [result] = await pool.query(
-      "SELECT * FROM productos WHERE id_producto = ?",
-      [req.params.id]
-    );
+    const productoQuery = `
+      SELECT p.*, e.nombre AS nombre_editora, d.nombre AS nombre_desarrollador, pl.nombre AS nombre_plataforma
+      FROM productos p
+      LEFT JOIN editoras e ON p.id_editora = e.id_editora
+      LEFT JOIN desarrolladores d ON p.id_desarrollador = d.id_desarrollador
+      LEFT JOIN plataformas pl ON p.id_plataforma = pl.id_plataforma
+      WHERE p.id_producto = ?
+    `;
+
+    const [result] = await pool.query(productoQuery, [req.params.id]);
     if (result.length === 0) {
       return res.status(404).json({ message: "Producto no encontrado" });
     }
@@ -51,24 +65,44 @@ export const createProducto = async (req, res) => {
       };
     }
 
-    const [result] = await pool.query(
-      "INSERT INTO productos(nombre, precio, descripcion, fecha_lanzamiento, id_editora, id_desarrollador, id_plataforma, existencia, imagen) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-      [
-        nombre,
-        precio,
-        descripcion,
-        fecha_lanzamiento,
-        id_editora,
-        id_desarrollador,
-        id_plataforma,
-        existencia,
-        imagen !== null ? imagen.url : null,
-      ]
-    );
+    const createProductQuery = `
+      INSERT INTO productos(nombre, precio, descripcion, fecha_lanzamiento, id_editora, id_desarrollador, id_plataforma, existencia, imagen)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    const [result] = await pool.query(createProductQuery, [
+      nombre,
+      precio,
+      descripcion,
+      fecha_lanzamiento,
+      id_editora,
+      id_desarrollador,
+      id_plataforma,
+      existencia,
+      imagen !== null ? imagen.url : null,
+    ]);
 
     const [registro] = await pool.query(
       "SELECT creadaEn, actualizadoEn FROM productos WHERE id_producto = ?",
       [result.insertId]
+    );
+
+    // Obtén el nombre de la editora
+    const [editoraInfo] = await pool.query(
+      "SELECT nombre FROM editoras WHERE id_editora = ?",
+      [id_editora]
+    );
+
+    // Obtén el nombre del desarrollador
+    const [desarrolladorInfo] = await pool.query(
+      "SELECT nombre FROM desarrolladores WHERE id_desarrollador = ?",
+      [id_desarrollador]
+    );
+
+    // Obtén el nombre de la plataforma
+    const [plataformaInfo] = await pool.query(
+      "SELECT nombre FROM plataformas WHERE id_plataforma = ?",
+      [id_plataforma]
     );
 
     console.log(result);
@@ -82,6 +116,9 @@ export const createProducto = async (req, res) => {
       id_desarrollador,
       id_editora,
       id_plataforma,
+      nombre_editora: editoraInfo[0].nombre,
+      nombre_desarrollador: desarrolladorInfo[0].nombre,
+      nombre_plataforma: plataformaInfo[0].nombre,
       creadaEn: registro[0].creadaEn,
       actualizadoEn: registro[0].actualizadoEn,
     });
