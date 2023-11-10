@@ -3,9 +3,14 @@ import { deleteImagen, uploadImagen } from "../libs/cloudinary.js";
 import fs from "fs-extra";
 export const getNoticias = async (req, res) => {
   try {
-    const [result] = await pool.query(
-      "SELECT * FROM noticias ORDER BY creadaEn ASC"
-    );
+    const noticiasQuery = `
+      SELECT n.*, u.nombre AS nombre_usuario
+      FROM noticias n
+      INNER JOIN usuarios u ON n.id_usuario = u.id_usuario
+      ORDER BY n.creadaEn ASC
+    `;
+
+    const [result] = await pool.query(noticiasQuery);
     console.log(result);
     res.json(result);
   } catch (error) {
@@ -13,12 +18,17 @@ export const getNoticias = async (req, res) => {
   }
 };
 
+
 export const getNoticia = async (req, res) => {
   try {
-    const [result] = await pool.query(
-      "SELECT * FROM noticias WHERE id_noticia = ?",
-      [req.params.id]
-    );
+    const noticiaQuery = `
+      SELECT n.*, u.nombre AS nombre_usuario
+      FROM noticias n
+      INNER JOIN usuarios u ON n.id_usuario = u.id_usuario
+      WHERE n.id_noticia = ?
+    `;
+
+    const [result] = await pool.query(noticiaQuery, [req.params.id]);
     if (result.length === 0) {
       return res.status(404).json({ message: "Noticia no encontrada" });
     }
@@ -28,9 +38,18 @@ export const getNoticia = async (req, res) => {
   }
 };
 
+
 export const createNoticia = async (req, res) => {
   try {
-    const { titulo, descripcion, fecha, id_usuario } = req.body;
+    const { titulo, descripcion, fecha } = req.body;
+    const id_usuario = req.usuario.id;
+
+
+    const [userInfo] = await pool.query(
+      "SELECT nombre FROM usuarios WHERE id_usuario = ?",
+      [id_usuario]
+    );
+
     let imagen = null;
 
     if (req.files.image) {
@@ -66,6 +85,7 @@ export const createNoticia = async (req, res) => {
       fecha,
       imagen: imagen,
       id_usuario,
+      nombre_usuario: userInfo[0].nombre, 
       creadaEn: registro[0].creadaEn,
       actualizadoEn: registro[0].actualizadoEn,
     });
@@ -73,6 +93,7 @@ export const createNoticia = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
 
 export const deleteNoticia = async (req, res) => {
   try {
