@@ -1,11 +1,18 @@
 import { pool } from "../db.js";
 import { deleteImagen, uploadImagen } from "../libs/cloudinary.js";
 import fs from "fs-extra";
+
+
 export const getImagenes = async (req, res) => {
   try {
-    const [result] = await pool.query(
-      "SELECT * FROM imagenes ORDER BY creadaEn ASC"
-    );
+    const imagenesQuery = `
+      SELECT i.id_imagen, i.imagen, i.id_producto, i.creadaEn, i.actualizadoEn, p.nombre AS nombre_producto
+      FROM imagenes i
+      INNER JOIN productos p ON i.id_producto = p.id_producto
+      ORDER BY i.creadaEn ASC
+    `;
+
+    const [result] = await pool.query(imagenesQuery);
     console.log(result);
     res.json(result);
   } catch (error) {
@@ -15,10 +22,14 @@ export const getImagenes = async (req, res) => {
 
 export const getImagen = async (req, res) => {
   try {
-    const [result] = await pool.query(
-      "SELECT * FROM imagenes WHERE id_imagen = ?",
-      [req.params.id]
-    );
+    const imagenQuery = `
+      SELECT i.id_imagen, i.imagen, i.id_producto, i.creadaEn, i.actualizadoEn, p.nombre AS nombre_producto
+      FROM imagenes i
+      INNER JOIN productos p ON i.id_producto = p.id_producto
+      WHERE i.id_imagen = ?
+    `;
+
+    const [result] = await pool.query(imagenQuery, [req.params.id]);
     if (result.length === 0) {
       return res.status(404).json({ message: "Imagen no encontrada" });
     }
@@ -52,11 +63,22 @@ export const createImagen = async (req, res) => {
       [result.insertId]
     );
 
+   
+    const [productoInfo] = await pool.query(
+      "SELECT nombre FROM productos WHERE id_producto = ?",
+      [id_producto]
+    );
+
+    if (productoInfo.length === 0) {
+      return res.status(404).json({ message: "Producto no encontrado" });
+    }
+
     console.log(result);
     res.json({
       id: result.insertId,
       imagen: imagen,
       id_producto,
+      nombre_producto: productoInfo[0].nombre,
       creadaEn: registro[0].creadaEn,
       actualizadoEn: registro[0].actualizadoEn,
     });
@@ -64,6 +86,7 @@ export const createImagen = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
 
 export const deleteImage = async (req, res) => {
   try {
