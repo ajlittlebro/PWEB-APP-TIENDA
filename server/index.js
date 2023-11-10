@@ -16,6 +16,7 @@ import imagenesRoutes from "./routes/imagenes.routes.js";
 import productosRoutes from "./routes/productos.routes.js";
 import carritoRoutes from "./routes/carrito.routes.js";
 import wishlistRoutes from "./routes/wishlist.routes.js";
+import productosgenerosRoutes from "./routes/prod_gen.routes.js"
 const app = express();
 
 app.use(
@@ -45,5 +46,6 @@ app.use("/api", imagenesRoutes);
 app.use("/api", productosRoutes);
 app.use("/api", carritoRoutes);
 app.use("/api", wishlistRoutes);
+app.use("/api", productosgenerosRoutes);
 app.listen(PORT);
 console.log("Server is listening on port " + PORT);
