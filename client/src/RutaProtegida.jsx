@@ -1,7 +1,14 @@
-import React from "react";
+import { Navigate, Outlet } from "react-router-dom";
+import { UseAuth } from "./context/AuthContext";
 
 function RutaProtegida() {
-  return <h1>Ruta Protegida</h1>;
+  const { loading, isAuthenticated } = UseAuth();
+  console.log(loading, isAuthenticated);
+
+  if (loading) return <h1>Loading...</h1>; 
+  if (!loading && !isAuthenticated) return <Navigate to="/crud/login" replace />;
+
+  return <Outlet />;
 }
 
 export default RutaProtegida;
