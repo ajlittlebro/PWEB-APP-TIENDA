@@ -12,15 +12,19 @@ import Usuarios from "./pages/crud/Usuarios";
 import Ventas from "./pages/crud/Ventas";
 import RutaProtegida from "./RutaProtegida";
 import { AuthProvider } from "./context/AuthContext";
+import Tablas from "./components/Tablas";
+import { NoticiaProvider } from "./context/noticiasContext";
 
 function App() {
   return (
     <AuthProvider>
+      <NoticiaProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<CrudLogin />}></Route>
           <Route path="/crud/login" element={<CrudLogin />}></Route>
           <Route element={<RutaProtegida />}>
+            <Route path="/crud/tablas" element={<Tablas />}></Route>
             <Route path="/crud/dashboard" element={<Dashboard />}></Route>
             <Route path="/crud/generos" element={<Generos />}></Route>
             <Route path="/crud/imagenes" element={<Imagenes />}></Route>
@@ -33,6 +37,7 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
+      </NoticiaProvider>
     </AuthProvider>
   );
 }
