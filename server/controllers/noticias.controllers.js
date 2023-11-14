@@ -18,7 +18,6 @@ export const getNoticias = async (req, res) => {
   }
 };
 
-
 export const getNoticia = async (req, res) => {
   try {
     const noticiaQuery = `
@@ -38,12 +37,10 @@ export const getNoticia = async (req, res) => {
   }
 };
 
-
 export const createNoticia = async (req, res) => {
   try {
     const { titulo, descripcion, fecha } = req.body;
     const id_usuario = req.usuario.id;
-
 
     const [userInfo] = await pool.query(
       "SELECT nombre FROM usuarios WHERE id_usuario = ?",
@@ -85,7 +82,7 @@ export const createNoticia = async (req, res) => {
       fecha,
       imagen: imagen,
       id_usuario,
-      nombre_usuario: userInfo[0].nombre, 
+      nombre_usuario: userInfo[0].nombre,
       creadaEn: registro[0].creadaEn,
       actualizadoEn: registro[0].actualizadoEn,
     });
@@ -93,7 +90,6 @@ export const createNoticia = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
-
 
 export const deleteNoticia = async (req, res) => {
   try {
@@ -107,9 +103,10 @@ export const deleteNoticia = async (req, res) => {
     }
 
     const imageUrl = result[0].imagen;
-    const publicId = imageUrl.match(/ImagenesPWEB\/[\w-]+/)[0];
-
-    await deleteImagen(publicId);
+    if (imageUrl) {
+      const publicId = imageUrl.match(/ImagenesPWEB\/[\w-]+/)[0];
+      await deleteImagen(publicId);
+    }
 
     const [deleteResult] = await pool.query(
       "DELETE FROM noticias WHERE id_noticia = ?",
