@@ -99,21 +99,7 @@ function Tablas() {
   const handleDelete = (id) => {
     deleteNoticia(id);
   };
-  const [state, setState] = React.useState(table.initialState);
 
-  // Override the state managers for the table to your own
-  table.setOptions((prev) => ({
-    ...prev,
-    state,
-    onStateChange: setState,
-    // These are just table options, so if things
-    // need to change based on your state, you can
-    // derive them here
-
-    // Just for fun, let's debug everything if the pageIndex
-    // is greater than 2
-    debugTable: state.pagination.pageIndex > 2,
-  }));
   if (noticias.length === 0) return <h1>No hay noticias</h1>;
 
   return (
@@ -221,7 +207,6 @@ function Tablas() {
       </select>
 
       <div className="h-4" />
-      
     </div>
   );
 }
