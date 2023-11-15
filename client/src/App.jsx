@@ -11,6 +11,7 @@ import Productos from "./pages/crud/Productos";
 import Usuarios from "./pages/crud/Usuarios";
 import Ventas from "./pages/crud/Ventas";
 import RutaProtegida from "./RutaProtegida";
+import CUNoticias from "./pages/crud/cuNoticias";
 import { AuthProvider } from "./context/AuthContext";
 import Tablas from "./components/Tablas";
 import { NoticiaProvider } from "./context/noticiasContext";
@@ -34,6 +35,8 @@ function App() {
             <Route path="/crud/productos" element={<Productos />}></Route>
             <Route path="/crud/usuarios" element={<Usuarios />}></Route>
             <Route path="/crud/ventas" element={<Ventas />}></Route>
+            <Route path="/crud/noticias/:id" element={<CUNoticias />}></Route>
+            <Route path="/crud/noticias/crear" element={<CUNoticias />}></Route>
           </Route>
         </Routes>
       </BrowserRouter>

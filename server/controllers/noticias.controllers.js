@@ -123,11 +123,33 @@ export const deleteNoticia = async (req, res) => {
   }
 };
 
+// Importa las funciones necesarias, como uploadImagen y fs.remove
+
+// ...
+
 export const updateNoticia = async (req, res) => {
   try {
+    let imagen = null;
+
+    // Verifica si hay una nueva imagen en la solicitud
+    if (req.files && req.files.image) {
+      const resultado = await uploadImagen(req.files.image.tempFilePath);
+      await fs.remove(req.files.image.tempFilePath);
+      imagen = {
+        url: resultado.secure_url,
+        public_id: resultado.public_id,
+      };
+    }
+
+    // Actualiza solo la información relevante en función de la presencia de la nueva imagen
+    const updateData = {
+      ...req.body,
+      imagen: imagen !== null ? imagen.url : null,
+    };
+
     const [result] = await pool.query(
       "UPDATE noticias SET ? WHERE id_noticia = ?",
-      [req.body, req.params.id]
+      [updateData, req.params.id]
     );
 
     if (result.affectedRows === 0)
@@ -138,3 +160,4 @@ export const updateNoticia = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
