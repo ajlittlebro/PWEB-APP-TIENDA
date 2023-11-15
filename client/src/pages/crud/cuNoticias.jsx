@@ -17,6 +17,8 @@ function CUNoticias() {
   const navigate = useNavigate();
   const params = useParams();
   const [imagenUrl, setImagenUrl] = useState(""); // Estado para almacenar la URL de la imagen
+  const [idNoticia, setIdNoticia] = useState(null);
+  const [nombreUsuario, setNombreUsuario] = useState(null);
 
   useEffect(() => {
     async function loadNoticia() {
@@ -25,7 +27,11 @@ function CUNoticias() {
         const formattedFecha = dayjs(noticia.fecha, "DD/MM/YYYY").format(
           "YYYY-MM-DD"
         );
+        setValue("id_noticia", noticia.id_noticia);
+        setValue("nombre_usuario", noticia.nombre_usuario);
         setValue("titulo", noticia.titulo);
+        setIdNoticia(noticia.id_noticia);
+        setNombreUsuario(noticia.nombre_usuario);
         setValue("descripcion", noticia.descripcion);
         setValue("fecha", formattedFecha);
         setImagenUrl(noticia.imagen);
@@ -73,7 +79,13 @@ function CUNoticias() {
         {/* Mostrar la imagen si hay una URL */}
         {imagenUrl && <img src={imagenUrl} alt="Imagen" />}
 
+        {/* Mostrar el ID de la noticia si no es null */}
+        {idNoticia !== null && <label>ID de la Noticia: {idNoticia}</label>}
 
+        {/* Mostrar el Nombre de Usuario si no es null */}
+        {nombreUsuario !== null && (
+          <label>Nombre de Usuario: {nombreUsuario}</label>
+        )}
         <input
           type="text"
           placeholder="Titulo"
