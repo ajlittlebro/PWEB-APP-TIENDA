@@ -65,7 +65,7 @@ export const updateGenero = async (req, res) => {
     const [result] = await pool.query(
       "UPDATE generos SET ? WHERE id_genero = ?",
       [req.body, req.params.id]
-    );
+    );    
 
     if (result.affectedRows === 0)
       return res.status(404).json({ message: "Genero no encontrado" });

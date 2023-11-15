@@ -21,14 +21,11 @@ export const createNoticiaRequest = (noticia) => {
 export const updateNoticiaRequest = (id, noticia) => {
   const form = new FormData();
 
-  // Append other fields
   form.append("titulo", noticia.titulo);
   form.append("descripcion", noticia.descripcion);
   form.append("fecha", noticia.fecha);
 
-  // Check if the user uploaded a new image
   if (noticia.image) {
-    // Append the new image with the key "image"
     form.append("image", noticia.image);
   }
 

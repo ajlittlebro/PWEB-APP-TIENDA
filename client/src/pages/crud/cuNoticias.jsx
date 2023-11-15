@@ -43,7 +43,7 @@ function CUNoticias() {
   const onFileChange = (e) => {
     const file = e.target.files[0];
     setValue("image", file);
-    setImagenUrl(URL.createObjectURL(file)); // Update the image URL state
+    setImagenUrl(URL.createObjectURL(file));
   };
 
   const onSubmit = handleSubmit(async (data) => {
