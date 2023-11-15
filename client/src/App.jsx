@@ -19,6 +19,12 @@ import { GeneroProvider } from "./context/GenerosContext";
 import CUGeneros from "./pages/crud/CUGeneros";
 import { PlataformaProvider } from "./context/PlataformasContext";
 import CUPlataformas from "./pages/crud/CUPlataformas";
+import { EditoraProvider } from "./context/EditorasContext";
+import CUEditoras from "./pages/crud/CUEditoras"; 
+import Editoras from "./pages/crud/Editoras";
+import { DesarrolladorProvider } from "./context/DesarrolladoresContext";
+import CUDesarrolladores from "./pages/crud/CUDesarrolladores";
+import Desarrolladores from "./pages/crud/Desarrolladores";
 
 function App() {
   return (
@@ -26,6 +32,8 @@ function App() {
       <NoticiaProvider>
       <GeneroProvider>
       <PlataformaProvider>
+      <EditoraProvider>
+      <DesarrolladorProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<CrudLogin />}></Route>
@@ -38,18 +46,26 @@ function App() {
             <Route path="/crud/noticias" element={<Noticias />}></Route>
             <Route path="/crud/perfil" element={<PerfilEmpleado />}></Route>
             <Route path="/crud/plataformas" element={<Plataformas />}></Route>
+            <Route path="/crud/desarrolladores" element={<Desarrolladores />}></Route>
+            <Route path="/crud/editoras" element={<Editoras />}></Route>
             <Route path="/crud/productos" element={<Productos />}></Route>
             <Route path="/crud/usuarios" element={<Usuarios />}></Route>
             <Route path="/crud/ventas" element={<Ventas />}></Route>
             <Route path="/crud/noticias/:id" element={<CUNoticias />}></Route>
             <Route path="/crud/generos/:id" element={<CUGeneros />}></Route>
             <Route path="/crud/plataformas/:id" element={<CUPlataformas />}></Route>
+            <Route path="/crud/editoras/:id" element={<CUEditoras />}></Route>
+            <Route path="/crud/desarrolladores/:id" element={<CUDesarrolladores />}></Route>
             <Route path="/crud/noticias/crear" element={<CUNoticias />}></Route>
+            <Route path="/crud/desarrolladores/crear" element={<CUDesarrolladores />}></Route>
+            <Route path="/crud/editoras/crear" element={<CUEditoras />}></Route>
             <Route path="/crud/plataformas/crear" element={<CUPlataformas />}></Route>
             <Route path="/crud/generos/crear" element={<CUGeneros />}></Route>
           </Route>
         </Routes>
       </BrowserRouter>
+      </DesarrolladorProvider>
+      </EditoraProvider>
       </PlataformaProvider>
       </GeneroProvider>
       </NoticiaProvider>

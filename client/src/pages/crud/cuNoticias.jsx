@@ -16,7 +16,7 @@ function CUNoticias() {
   const { createNoticia, getNoticia, updateNoticia } = useNoticias();
   const navigate = useNavigate();
   const params = useParams();
-  const [imagenUrl, setImagenUrl] = useState(""); // Estado para almacenar la URL de la imagen
+  const [imagenUrl, setImagenUrl] = useState(""); 
   const [idNoticia, setIdNoticia] = useState(null);
   const [nombreUsuario, setNombreUsuario] = useState(null);
 
@@ -76,13 +76,13 @@ function CUNoticias() {
   return (
     <div>
       <form onSubmit={onSubmit}>
-        {/* Mostrar la imagen si hay una URL */}
+      
         {imagenUrl && <img src={imagenUrl} alt="Imagen" />}
 
-        {/* Mostrar el ID de la noticia si no es null */}
+ 
         {idNoticia !== null && <label>ID de la Noticia: {idNoticia}</label>}
 
-        {/* Mostrar el Nombre de Usuario si no es null */}
+       
         {nombreUsuario !== null && (
           <label>Nombre de Usuario: {nombreUsuario}</label>
         )}

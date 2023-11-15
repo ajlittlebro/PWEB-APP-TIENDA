@@ -101,7 +101,14 @@ function Noticias() {
     deleteNoticia(id);
   };
 
-  if (noticias.length === 0) return <h1>No hay noticias</h1>;
+  if (noticias.length === 0) {
+    return (
+      <div>
+        <h1>No hay noticias</h1>
+        <Link to={"/crud/noticias/crear"}>Crear</Link>
+      </div>
+    );
+  }
 
   return (
     <div>

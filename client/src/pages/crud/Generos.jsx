@@ -67,7 +67,14 @@ function Generos() {
     deleteGenero(id);
   };
 
-  if (generos.length === 0) return <h1>No hay géneros</h1>;
+  if (generos.length === 0) {
+    return (
+      <div>
+        <h1>No hay géneros</h1>
+        <Link to={"/crud/generos/crear"}>Crear</Link>
+      </div>
+    );
+  }
 
   return (
     <div>

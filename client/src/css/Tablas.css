@@ -23,7 +23,7 @@ tr:nth-child(even){
     background: #f2f2f2;
 }
 
-.resizer{
+/*.resizer{
     position: absolute;
     opacity: 0;
     top: 0;
@@ -44,4 +44,4 @@ tr:nth-child(even){
 .resizer.isResizing{
     background: #2eff31;
     opacity: 1;
-}
+}*/

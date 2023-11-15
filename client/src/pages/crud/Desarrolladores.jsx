@@ -6,7 +6,7 @@ import {
   getSortedRowModel,
   getFilteredRowModel,
 } from "@tanstack/react-table";
-import { usePlataformas } from "../../context/PlataformasContext";
+import { useDesarrolladores } from "../../context/DesarrolladoresContext";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../../css/tablas.css";
@@ -14,17 +14,18 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import React from "react";
 dayjs.extend(utc);
-function Plataformas() {
-  const { getPlataformas, plataformas, deletePlataforma } = usePlataformas();
+function Desarrolladores() {
+  const { getDesarrolladores, desarrolladores, deleteDesarrollador } =
+    useDesarrolladores();
 
   useEffect(() => {
-    getPlataformas();
+    getDesarrolladores();
   }, []);
 
   const columns = [
     {
-      header: "ID PLATAFORMA",
-      accessorKey: "id_plataforma",
+      header: "ID DESARROLLADOR",
+      accessorKey: "id_desarrollador",
     },
     {
       header: "NOMBRE",
@@ -34,7 +35,7 @@ function Plataformas() {
   const [sorting, setSorting] = useState([]);
   const [filtering, setFiltering] = useState("");
   const table = useReactTable({
-    data: plataformas,
+    data: desarrolladores,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -49,22 +50,22 @@ function Plataformas() {
   });
 
   const handleDelete = (id) => {
-    deletePlataforma(id);
+    deleteDesarrollador(id);
   };
 
-  if (plataformas.length === 0) {
+  if (desarrolladores.length === 0) {
     return (
       <div>
-        <h1>No hay plataformas</h1>
-        <Link to={"/crud/plataformas/crear"}>Crear</Link>
+        <h1>No hay desarrolladores</h1>
+        <Link to={"/crud/desarrolladores/crear"}>Crear</Link>
       </div>
     );
   }
 
   return (
     <div>
-      <h1>Plataformas</h1>
-      <Link to={"/crud/plataformas/crear"}>Crear</Link>
+      <h1>Desarrolladores</h1>
+      <Link to={"/crud/desarrolladores/crear"}>Crear</Link>
       <input
         type="text"
         value={filtering}
@@ -102,11 +103,13 @@ function Plataformas() {
                 </td>
               ))}
               <td>
-                <Link to={"/crud/plataformas/" + row.original.id_plataforma}>
+                <Link
+                  to={"/crud/desarrolladores/" + row.original.id_desarrollador}
+                >
                   Edit
                 </Link>
                 <button
-                  onClick={() => handleDelete(row.original.id_plataforma)}
+                  onClick={() => handleDelete(row.original.id_desarrollador)}
                 >
                   Borrar
                 </button>
@@ -176,4 +179,4 @@ function Plataformas() {
   );
 }
 
-export default Plataformas;
+export default Desarrolladores;
