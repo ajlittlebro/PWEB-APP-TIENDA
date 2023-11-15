@@ -108,6 +108,7 @@ function Noticias() {
       <h1>
         Noticias
       </h1>
+      <Link to={"/crud/noticias/crear"}>Crear</Link>
       <input
         type="text"
         value={filtering}

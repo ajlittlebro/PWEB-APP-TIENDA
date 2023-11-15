@@ -17,12 +17,15 @@ import Tablas from "./components/Tablas";
 import { NoticiaProvider } from "./context/noticiasContext";
 import { GeneroProvider } from "./context/GenerosContext";
 import CUGeneros from "./pages/crud/CUGeneros";
+import { PlataformaProvider } from "./context/PlataformasContext";
+import CUPlataformas from "./pages/crud/CUPlataformas";
 
 function App() {
   return (
     <AuthProvider>
       <NoticiaProvider>
       <GeneroProvider>
+      <PlataformaProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<CrudLogin />}></Route>
@@ -40,11 +43,14 @@ function App() {
             <Route path="/crud/ventas" element={<Ventas />}></Route>
             <Route path="/crud/noticias/:id" element={<CUNoticias />}></Route>
             <Route path="/crud/generos/:id" element={<CUGeneros />}></Route>
+            <Route path="/crud/plataformas/:id" element={<CUPlataformas />}></Route>
             <Route path="/crud/noticias/crear" element={<CUNoticias />}></Route>
+            <Route path="/crud/plataformas/crear" element={<CUPlataformas />}></Route>
             <Route path="/crud/generos/crear" element={<CUGeneros />}></Route>
           </Route>
         </Routes>
       </BrowserRouter>
+      </PlataformaProvider>
       </GeneroProvider>
       </NoticiaProvider>
     </AuthProvider>

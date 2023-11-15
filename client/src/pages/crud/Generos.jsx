@@ -72,6 +72,7 @@ function Generos() {
   return (
     <div>
       <h1>Géneros</h1>
+      <Link to={"/crud/generos/crear"}>Crear</Link>
       <input
         type="text"
         value={filtering}
