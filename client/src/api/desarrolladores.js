@@ -1,7 +1,9 @@
 import axios from "./axios.js";
 
 export const getDesarrolladoresRequest = () =>
-  axios.get("/crud/desarrolladores");
+  {
+    return axios.get("/crud/desarrolladores");
+  }
 
 export const getDesarrolladorRequest = (id) =>
   axios.get("/crud/desarrolladores/" + id);

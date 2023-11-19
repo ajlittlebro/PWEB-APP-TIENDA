@@ -1,6 +1,8 @@
 import axios from "./axios.js";
 
-export const getPlataformasRequest = () => axios.get("/crud/plataformas");
+export const getPlataformasRequest = () => {
+  return axios.get("/crud/plataformas");
+}
 
 export const getPlataformaRequest = (id) => axios.get("/crud/plataformas/" + id);
 

@@ -23,10 +23,17 @@ export const useDesarrolladores = () => {
 
 export function DesarrolladorProvider({ children }) {
   const [desarrolladores, setDesarrolladores] = useState([]);
+  const [dataLoaded, setDataLoaded] = useState(false); 
+
+
+
   const getDesarrolladores = async () => {
     try {
-      const res = await getDesarrolladoresRequest();
-      setDesarrolladores(res.data);
+      if (!dataLoaded) { 
+        const res = await getDesarrolladoresRequest();
+        setDesarrolladores(res.data);
+        setDataLoaded(true); 
+      }
     } catch (error) {
       console.error(error);
     }

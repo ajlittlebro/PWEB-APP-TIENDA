@@ -25,6 +25,8 @@ import Editoras from "./pages/crud/Editoras";
 import { DesarrolladorProvider } from "./context/DesarrolladoresContext";
 import CUDesarrolladores from "./pages/crud/CUDesarrolladores";
 import Desarrolladores from "./pages/crud/Desarrolladores";
+import { ProductoProvider } from "./context/ProductosContext";
+import CUProductos from "./pages/crud/CUProductos";
 
 function App() {
   return (
@@ -34,6 +36,7 @@ function App() {
       <PlataformaProvider>
       <EditoraProvider>
       <DesarrolladorProvider>
+      <ProductoProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<CrudLogin />}></Route>
@@ -56,6 +59,8 @@ function App() {
             <Route path="/crud/plataformas/:id" element={<CUPlataformas />}></Route>
             <Route path="/crud/editoras/:id" element={<CUEditoras />}></Route>
             <Route path="/crud/desarrolladores/:id" element={<CUDesarrolladores />}></Route>
+            <Route path="/crud/productos/:id" element={<CUProductos />}></Route>
+            <Route path="/crud/productos/crear" element={<CUProductos />}></Route>
             <Route path="/crud/noticias/crear" element={<CUNoticias />}></Route>
             <Route path="/crud/desarrolladores/crear" element={<CUDesarrolladores />}></Route>
             <Route path="/crud/editoras/crear" element={<CUEditoras />}></Route>
@@ -64,6 +69,7 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
+      </ProductoProvider>
       </DesarrolladorProvider>
       </EditoraProvider>
       </PlataformaProvider>

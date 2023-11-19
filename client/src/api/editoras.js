@@ -1,6 +1,8 @@
 import axios from "./axios.js";
 
-export const getEditorasRequest = () => axios.get("/crud/editoras");
+export const getEditorasRequest = () => {
+  return axios.get("/crud/editoras");
+}
 
 export const getEditoraRequest = (id) => axios.get("/crud/editoras/" + id);
 

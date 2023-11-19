@@ -21,10 +21,15 @@ export const useEditoras = () => {
 
 export function EditoraProvider({ children }) {
   const [editoras, setEditoras] = useState([]);
+  const [dataLoaded, setDataLoaded] = useState(false); 
+
   const getEditoras = async () => {
     try {
-      const res = await getEditorasRequest();
-      setEditoras(res.data);
+      if (!dataLoaded) { 
+        const res = await getEditorasRequest();
+        setEditoras(res.data);
+        setDataLoaded(true);
+      }
     } catch (error) {
       console.error(error);
     }

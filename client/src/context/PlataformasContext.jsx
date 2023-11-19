@@ -21,10 +21,15 @@ export const usePlataformas = () => {
 
 export function PlataformaProvider({ children }) {
   const [plataformas, setPlataformas] = useState([]);
+  const [dataLoaded, setDataLoaded] = useState(false);
+
   const getPlataformas = async () => {
     try {
-      const res = await getPlataformasRequest();
-      setPlataformas(res.data);
+      if (!dataLoaded) { 
+        const res = await getPlataformasRequest();
+        setPlataformas(res.data);
+        setDataLoaded(true); 
+      }
     } catch (error) {
       console.error(error);
     }
