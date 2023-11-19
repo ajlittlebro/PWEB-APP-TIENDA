@@ -13,7 +13,7 @@ function CUEditoras() {
     setValue,
     formState: { errors },
   } = useForm();
-  const { createEditora, getEditora, updateEditora } = useEditoras();
+  const { createEditora, getEditora, updateEditora,  setDataLoaded } = useEditoras();
   const navigate = useNavigate();
   const params = useParams();
   const [idEditora, setIdEditora] = useState(null);
@@ -46,6 +46,7 @@ function CUEditoras() {
       const response = { status: 200 };
 
       if (response.status === 200) {
+        setDataLoaded(false);
         navigate("/crud/editoras");
       } else {
         console.error("Unexpected response status:", response.status);

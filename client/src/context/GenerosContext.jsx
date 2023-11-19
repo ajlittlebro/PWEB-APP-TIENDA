@@ -70,6 +70,7 @@ export function GeneroProvider({ children }) {
         deleteGenero,
         getGenero,
         updateGenero,
+      
       }}
     >
       {children}

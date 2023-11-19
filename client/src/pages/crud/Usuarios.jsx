@@ -1,7 +1,207 @@
+import {
+  useReactTable,
+  getCoreRowModel,
+  flexRender,
+  getPaginationRowModel,
+  getSortedRowModel,
+  getFilteredRowModel,
+} from "@tanstack/react-table";
+import { useUsuarios } from "../../context/UsuariosContext";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import "../../css/tablas.css";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import React from "react";
-
+dayjs.extend(utc);
 function Usuarios() {
-  return <h1>Usuarios</h1>;
+  const { getUsuarios, usuarios, deleteUsuario } = useUsuarios();
+
+  useEffect(() => {
+    getUsuarios();
+  }, []);
+
+  const columns = [
+    {
+      header: "ID USUARIO",
+      accessorKey: "id_usuario",
+    },
+    /*{
+      header: "ID USUARIO",
+      accessorKey: "id_usuario",
+    },
+    {
+      header: "USUARIO",
+      accessorKey: "nombre_usuario",
+    },*/
+    {
+      header: "ROL",
+      accessorFn: (row) => `${row.id_rol} ${row.rol}`,
+    },
+    {
+      header: "NOMBRE",
+      accessorKey: "nombre",
+    },
+    {
+      header: "CORREO",
+      accessorKey: "correo",
+    },
+    {
+      header: "CREADO",
+      accessorKey: "creadaEn",
+      cell: (info) => {
+        return dayjs(info.getValue()).format("MMM D, YYYY h:mm A");
+      },
+    },
+    {
+      header: "ACTUALIZADO",
+      accessorKey: "actualizadoEn",
+      cell: (info) => {
+        return dayjs(info.getValue()).format("MMM D, YYYY h:mm A");
+      },
+    },
+  ];
+  const [sorting, setSorting] = useState([]);
+  const [filtering, setFiltering] = useState("");
+  const table = useReactTable({
+    data: usuarios,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    state: {
+      sorting,
+      globalFilter: filtering,
+    },
+    onSortingChange: setSorting,
+    onGlobalFilterChange: setFiltering,
+  });
+
+  const handleDelete = (id) => {
+    deleteUsuario(id);
+  };
+
+  if (usuarios.length === 0) {
+    return (
+      <div>
+        <h1>No hay usuarios</h1>
+        <Link to={"/crud/usuarios/crear"}>Crear</Link>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <h1>Usuarios</h1>
+      <Link to={"/crud/usuarios/crear"}>Crear</Link>
+      <input
+        type="text"
+        value={filtering}
+        onChange={(e) => setFiltering(e.target.value)}
+      />
+      <table>
+        <thead>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <th
+                  key={header.id}
+                  onClick={header.column.getToggleSortingHandler()}
+                >
+                  {flexRender(
+                    header.column.columnDef.header,
+                    header.getContext()
+                  )}
+                  {
+                    { asc: "⬆️", desc: "⬇️" }[
+                      header.column.getIsSorted() ?? null
+                    ]
+                  }
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody>
+          {table.getRowModel().rows.map((row) => (
+            <tr key={row.id}>
+              {row.getVisibleCells().map((cell, index) => (
+                <td key={index}>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </td>
+              ))}
+              <td>
+                <Link to={"/crud/usuarios/" + row.original.id_usuario}>
+                  Edit
+                </Link>
+                <button onClick={() => handleDelete(row.original.id_usuario)}>
+                  Borrar
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <button
+        onClick={() => table.setPageIndex(0)}
+        disabled={!table.getCanPreviousPage()}
+      >
+        Primer Página
+      </button>
+      <button
+        onClick={() => table.previousPage()}
+        disabled={!table.getCanPreviousPage()}
+      >
+        Página Anterior
+      </button>
+      <button
+        onClick={() => table.nextPage()}
+        disabled={!table.getCanNextPage()}
+      >
+        Página Siguiente
+      </button>
+      <button
+        onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+        disabled={!table.getCanNextPage()}
+      >
+        Última Página
+      </button>
+      <span className="flex items-center gap-1">
+        <div>Page</div>
+        <strong>
+          {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+        </strong>
+      </span>
+      <span className="flex items-center gap-1">
+        | Go to page:
+        <input
+          type="number"
+          defaultValue={table.getState().pagination.pageIndex + 1}
+          onChange={(e) => {
+            const page = e.target.value ? Number(e.target.value) - 1 : 0;
+            table.setPageIndex(page);
+          }}
+          className="border p-1 rounded w-16"
+        />
+      </span>
+      <select
+        value={table.getState().pagination.pageSize}
+        onChange={(e) => {
+          table.setPageSize(Number(e.target.value));
+        }}
+      >
+        {[10, 20, 30, 40, 50].map((pageSize) => (
+          <option key={pageSize} value={pageSize}>
+            Show {pageSize}
+          </option>
+        ))}
+      </select>
+
+      <div className="h-4" />
+    </div>
+  );
 }
 
 export default Usuarios;

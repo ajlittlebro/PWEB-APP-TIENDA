@@ -77,6 +77,7 @@ export function DesarrolladorProvider({ children }) {
   return (
     <desarrolladoresContext.Provider
       value={{
+        setDataLoaded,
         desarrolladores,
         createDesarrollador,
         getDesarrollador,

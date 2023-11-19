@@ -11,13 +11,14 @@ import utc from "dayjs/plugin/utc";
 dayjs.extend(utc);
 
 function CUProductos() {
+  
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
   } = useForm();
-  const { createProducto, getProducto, updateProducto } = useProductos();
+  const { createProducto, getProducto, updateProducto, setDataLoaded } = useProductos();
   const { plataformas, getPlataformas } = usePlataformas();
   const { editoras, getEditoras } = useEditoras();
   const { desarrolladores, getDesarrolladores } = useDesarrolladores();
@@ -47,6 +48,7 @@ function CUProductos() {
           setValue("existencia", producto.existencia);
           setValue("precio", producto.precio);
           setValue("fecha_lanzamiento", formattedFecha);
+          setIdProducto(producto.id_producto)
           setImagenUrl(producto.imagen);
           setSelectedPlataforma({
             value: producto.id_plataforma,
@@ -124,6 +126,7 @@ function CUProductos() {
       const response = { status: 200 };
 
       if (response.status === 200) {
+         setDataLoaded(false);
         navigate("/crud/productos");
       } else {
         console.error("Unexpected response status:", response.status);

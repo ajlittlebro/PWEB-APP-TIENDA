@@ -31,6 +31,7 @@ function CUImagenes() {
           setValue("id_producto", imagen.id_producto || "");
           setValue("id_imagen", imagen.id_imagen);
           setImagenUrl(imagen.imagen);
+          setIdImagen(imagen.id_imagen)
           setSelectedProducto({
             value: imagen.id_producto,
             label: imagen.nombre_producto,

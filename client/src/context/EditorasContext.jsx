@@ -75,6 +75,7 @@ export function EditoraProvider({ children }) {
         deleteEditora,
         getEditora,
         updateEditora,
+        setDataLoaded
       }}
     >
       {children}

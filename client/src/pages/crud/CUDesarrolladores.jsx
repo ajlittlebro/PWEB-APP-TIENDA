@@ -13,7 +13,7 @@ function CUDesarrolladores() {
     setValue,
     formState: { errors },
   } = useForm();
-  const { createDesarrollador, getDesarrollador, updateDesarrollador } =
+  const { createDesarrollador, getDesarrollador, updateDesarrollador,  setDataLoaded } =
     useDesarrolladores();
   const navigate = useNavigate();
   const params = useParams();
@@ -47,6 +47,7 @@ function CUDesarrolladores() {
       const response = { status: 200 };
 
       if (response.status === 200) {
+         setDataLoaded(false);
         navigate("/crud/desarrolladores");
       } else {
         console.error("Unexpected response status:", response.status);

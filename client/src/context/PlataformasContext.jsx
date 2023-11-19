@@ -75,6 +75,7 @@ export function PlataformaProvider({ children }) {
         deletePlataforma,
         getPlataforma,
         updatePlataforma,
+        setDataLoaded
       }}
     >
       {children}

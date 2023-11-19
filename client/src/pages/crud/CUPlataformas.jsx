@@ -13,7 +13,7 @@ function CUPlataformas() {
     setValue,
     formState: { errors },
   } = useForm();
-  const { createPlataforma, getPlataforma, updatePlataforma } =
+  const { createPlataforma, getPlataforma, updatePlataforma,  setDataLoaded } =
     usePlataformas();
   const navigate = useNavigate();
   const params = useParams();
@@ -47,6 +47,7 @@ function CUPlataformas() {
       const response = { status: 200 };
 
       if (response.status === 200) {
+        setDataLoaded(false);
         navigate("/crud/plataformas");
       } else {
         console.error("Unexpected response status:", response.status);

@@ -25,10 +25,10 @@ export function ProductoProvider({ children }) {
 
   const getProductos = async () => {
     try {
-      if (!dataLoaded) { 
+      if (!dataLoaded) {
         const res = await getProductosRequest();
         setProductos(res.data);
-        setDataLoaded(true); 
+        setDataLoaded(true);
       }
     } catch (error) {
       console.error(error);
@@ -77,6 +77,8 @@ export function ProductoProvider({ children }) {
         deleteProducto,
         getProductos,
         updateProducto,
+        dataLoaded,
+        setDataLoaded,
       }}
     >
       {children}
