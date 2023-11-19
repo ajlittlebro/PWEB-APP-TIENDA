@@ -21,10 +21,15 @@ export const useProductos = () => {
 
 export function ProductoProvider({ children }) {
   const [productos, setProductos] = useState([]);
+  const [dataLoaded, setDataLoaded] = useState(false);
+
   const getProductos = async () => {
     try {
-      const res = await getProductosRequest();
-      setProductos(res.data);
+      if (!dataLoaded) { 
+        const res = await getProductosRequest();
+        setProductos(res.data);
+        setDataLoaded(true); 
+      }
     } catch (error) {
       console.error(error);
     }

@@ -100,9 +100,10 @@ export const deleteImage = async (req, res) => {
     }
 
     const imageUrl = result[0].imagen;
-    const publicId = imageUrl.match(/ImagenesPWEB\/[\w-]+/)[0];
-
-    await deleteImagen(publicId);
+    if (imageUrl) {
+      const publicId = imageUrl.match(/ImagenesPWEB\/[\w-]+/)[0];
+      await deleteImagen(publicId);
+    }
 
     const [deleteResult] = await pool.query(
       "DELETE FROM imagenes WHERE id_imagen = ?",
@@ -155,6 +156,11 @@ export const updateImagen = async (req, res) => {
       };
     }
 
+    const updateData = {
+      ...req.body,
+      imagen: imagen !== null ? imagen.url : null,
+    };
+
     
     const [result] = await pool.query(
       "UPDATE imagenes SET id_producto = ?, imagen = ? WHERE id_imagen = ?",
@@ -162,6 +168,7 @@ export const updateImagen = async (req, res) => {
         req.body.id_producto,
         imagen ? imagen.url : imagenExistente[0].imagen, 
         req.params.id,
+        updateData
       ]
     );
 
