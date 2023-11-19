@@ -18,18 +18,21 @@ export const getProductosGeneros = async (req, res) => {
 
 export const getProductoGenero = async (req, res) => {
   try {
+    const { id_producto, id_genero } = req.params;
+
     const productoQuery = `
         SELECT pg.id_genero, pg.id_producto, pg.creadaEn, pg.actualizadoEn, p.nombre AS nombre_producto, g.nombre AS nombre_genero
         FROM productos_generos pg
         INNER JOIN productos p ON pg.id_producto = p.id_producto
         INNER JOIN generos g ON pg.id_genero = g.id_genero
-        WHERE p.id_producto = ?
+        WHERE pg.id_producto = ? AND pg.id_genero = ?
       `;
 
-    const [result] = await pool.query(productoQuery, [req.params.id]);
+    const [result] = await pool.query(productoQuery, [id_producto, id_genero]);
     if (result.length === 0) {
-      return res.status(404).json({ message: "Producto no encontrado" });
+      return res.status(404).json({ message: "Relación no encontrada" });
     }
+
     res.json(result[0]);
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -100,23 +103,7 @@ export const createProductoGenero = async (req, res) => {
 
 export const deleteProductoGenero = async (req, res) => {
   try {
-    const { id_producto, id_genero } = req.body;
-
-    const [productoInfo] = await pool.query(
-      "SELECT * FROM productos WHERE id_producto = ?",
-      [id_producto]
-    );
-
-    const [generoInfo] = await pool.query(
-      "SELECT * FROM generos WHERE id_genero = ?",
-      [id_genero]
-    );
-
-    if (productoInfo.length === 0 || generoInfo.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "Producto o género no encontrado" });
-    }
+    const { id_producto, id_genero } = req.params;
 
     const [relacionExistente] = await pool.query(
       "SELECT * FROM productos_generos WHERE id_producto = ? AND id_genero = ?",
@@ -137,8 +124,10 @@ export const deleteProductoGenero = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
-/*
-export const updateProductoGenero = async (req, res) => {
+
+
+
+/*export const updateProductoGenero = async (req, res) => {
   try {
     const { id_producto, id_genero } = req.body;
 
@@ -180,5 +169,5 @@ export const updateProductoGenero = async (req, res) => {
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
-};
-*/
+};*/
+

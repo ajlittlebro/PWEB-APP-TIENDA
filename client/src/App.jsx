@@ -32,6 +32,9 @@ import CUImagenes from "./pages/crud/CUImagenes";
 import CUUsuarios from "./pages/crud/CUUsuarios";
 import { UsuarioProvider } from "./context/UsuariosContext";
 import { RolProvider } from "./context/RolesContext";
+import ProductosGeneros from "./pages/crud/ProductosGeneros";
+import { ProductosGenerosProvider } from "./context/ProductosGenerosContext";
+import CUProductosGeneros from "./pages/crud/CUProductosGeneros";
 
 function App() {
   return (
@@ -45,6 +48,7 @@ function App() {
       <ImagenProvider>
       <UsuarioProvider>
         <RolProvider>
+        <ProductosGenerosProvider>
         <BrowserRouter>
         <Routes>
           <Route path="/" element={<CrudLogin />}></Route>
@@ -55,6 +59,7 @@ function App() {
             <Route path="/crud/generos" element={<Generos />}></Route>
             <Route path="/crud/imagenes" element={<Imagenes />}></Route>
             <Route path="/crud/noticias" element={<Noticias />}></Route>
+            <Route path="/crud/productosgeneros" element={<ProductosGeneros />}></Route>
             <Route path="/crud/perfil" element={<PerfilEmpleado />}></Route>
             <Route path="/crud/plataformas" element={<Plataformas />}></Route>
             <Route path="/crud/desarrolladores" element={<Desarrolladores />}></Route>
@@ -70,6 +75,8 @@ function App() {
             <Route path="/crud/productos/:id" element={<CUProductos />}></Route>
             <Route path="/crud/imagenes/:id" element={<CUImagenes />}></Route>
             <Route path="/crud/usuarios/:id" element={<CUUsuarios />}></Route>
+            <Route path="/crud/productosgeneros/:id/:id" element={<CUProductosGeneros />}></Route>
+            <Route path="/crud/productosgeneros/crear" element={<CUProductosGeneros />}></Route>
             <Route path="/crud/usuarios/crear" element={<CUUsuarios />}></Route>
             <Route path="/crud/imagenes/crear" element={<CUImagenes />}></Route>
             <Route path="/crud/productos/crear" element={<CUProductos />}></Route>
@@ -81,6 +88,7 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
+        </ProductosGenerosProvider>
         </RolProvider>
       </UsuarioProvider>
       </ImagenProvider>

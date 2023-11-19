@@ -21,10 +21,14 @@ export const useGeneros = () => {
 
 export function GeneroProvider({ children }) {
   const [generos, setGeneros] = useState([]);
+  const [dataLoaded, setDataLoaded] = useState(false);
   const getGeneros = async () => {
     try {
-      const res = await getGenerosRequest();
-      setGeneros(res.data);
+      if (!dataLoaded) {
+        const res = await getGenerosRequest();
+        setGeneros(res.data);
+        setDataLoaded(true);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -70,7 +74,7 @@ export function GeneroProvider({ children }) {
         deleteGenero,
         getGenero,
         updateGenero,
-      
+        setDataLoaded,
       }}
     >
       {children}
