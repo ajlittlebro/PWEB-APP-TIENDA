@@ -39,10 +39,6 @@ function Login() {
         {errors.contrasena && <p>Contraseña es requerido</p>}
         <button type="submit">Crear</button>
       </form>
-
-      <p>
-        Don't have an account? <Link to="/crear-usuario">Sign up</Link>
-      </p>
     </div>
   );
 }

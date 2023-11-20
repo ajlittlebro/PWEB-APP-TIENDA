@@ -35,6 +35,7 @@ import { RolProvider } from "./context/RolesContext";
 import ProductosGeneros from "./pages/crud/ProductosGeneros";
 import { ProductosGenerosProvider } from "./context/ProductosGenerosContext";
 import CUProductosGeneros from "./pages/crud/CUProductosGeneros";
+import NoticiasTienda from "./pages/tienda/NoticiasTienda";
 
 function App() {
   return (
@@ -85,6 +86,8 @@ function App() {
             <Route path="/crud/editoras/crear" element={<CUEditoras />}></Route>
             <Route path="/crud/plataformas/crear" element={<CUPlataformas />}></Route>
             <Route path="/crud/generos/crear" element={<CUGeneros />}></Route>
+            {/*PAGINAS DE FRONT*/}
+            <Route path="/tienda/noticias" element={<NoticiasTienda />}></Route>
           </Route>
         </Routes>
       </BrowserRouter>

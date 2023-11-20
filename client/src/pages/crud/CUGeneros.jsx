@@ -13,7 +13,7 @@ function CUGeneros() {
     setValue,
     formState: { errors },
   } = useForm();
-  const { createGenero, getGenero, updateGenero } = useGeneros();
+  const { createGenero, getGenero, updateGenero, setDataLoaded } = useGeneros();
   const navigate = useNavigate();
   const params = useParams();
   const [idGenero, setIdGenero] = useState(null);
@@ -47,6 +47,7 @@ function CUGeneros() {
       const response = { status: 200 };
 
       if (response.status === 200) {
+        setDataLoaded(false);
         navigate("/crud/generos");
       } else {
         console.error("Unexpected response status:", response.status);
