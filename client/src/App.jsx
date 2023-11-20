@@ -36,6 +36,9 @@ import ProductosGeneros from "./pages/crud/ProductosGeneros";
 import { ProductosGenerosProvider } from "./context/ProductosGenerosContext";
 import CUProductosGeneros from "./pages/crud/CUProductosGeneros";
 import NoticiasTienda from "./pages/tienda/NoticiasTienda";
+import Catalogo from "./pages/tienda/Catalogo";
+import WishlistPage from "./pages/tienda/Wishlist";
+import { WishlistProvider } from "./context/WishlistContext";
 
 function App() {
   return (
@@ -50,6 +53,7 @@ function App() {
       <UsuarioProvider>
         <RolProvider>
         <ProductosGenerosProvider>
+        <WishlistProvider>
         <BrowserRouter>
         <Routes>
           <Route path="/" element={<CrudLogin />}></Route>
@@ -88,9 +92,12 @@ function App() {
             <Route path="/crud/generos/crear" element={<CUGeneros />}></Route>
             {/*PAGINAS DE FRONT*/}
             <Route path="/tienda/noticias" element={<NoticiasTienda />}></Route>
+            <Route path="/tienda/catalogo" element={<Catalogo />}></Route>
+            <Route path="/tienda/wishlist" element={<WishlistPage />}></Route>
           </Route>
         </Routes>
       </BrowserRouter>
+        </WishlistProvider>
         </ProductosGenerosProvider>
         </RolProvider>
       </UsuarioProvider>
