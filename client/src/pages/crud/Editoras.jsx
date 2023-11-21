@@ -63,14 +63,43 @@ import {
   
     return (
       <div>
-        <h1>Editoras</h1>
-        <Link to={"/crud/editoras/crear"}>Crear</Link>
+        <h1 class="text-4xl font-bold text-gray-800 mb-4">Editoras</h1>
+        <Link to={"/crud/editoras/crear"}
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">Crear</Link>
         <input
           type="text"
           value={filtering}
           onChange={(e) => setFiltering(e.target.value)}
+          class="border-2 border-gray-300 bg-white h-10 px-5 rounded-lg text-sm focus:outline-none"
         />
-        <table>
+        <select
+        value={table.getState().pagination.pageSize}
+        onChange={(e) => {
+          table.setPageSize(Number(e.target.value));
+        }}
+        class="border border-gray-300 bg-white h-10 px-5 rounded-lg text-sm focus:outline-none mt-4"
+      >
+        {[10, 20, 30, 40, 50].map((pageSize) => (
+          <option key={pageSize} value={pageSize}>
+            {" "}
+            Mostrar {pageSize}{" "}
+          </option>
+        ))}
+      </select>
+      <span className=" items-center  p-2 rounded">
+        {" "}
+        | Ir a la página:{" "}
+        <input
+          type="number"
+          defaultValue={table.getState().pagination.pageIndex + 1}
+          onChange={(e) => {
+            const page = e.target.value ? Number(e.target.value) - 1 : 0;
+            table.setPageIndex(page);
+          }}
+          className="border border-gray-400 p-1 rounded w-16"
+        />{" "}
+      </span>{" "}
+        <table className="w-full p-1 table-auto border-collapse text-sm">
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
@@ -78,6 +107,7 @@ import {
                   <th
                     key={header.id}
                     onClick={header.column.getToggleSortingHandler()}
+                    className="border p-1"
                   >
                     {flexRender(
                       header.column.columnDef.header,
@@ -97,16 +127,19 @@ import {
             {table.getRowModel().rows.map((row) => (
               <tr key={row.id}>
                 {row.getVisibleCells().map((cell, index) => (
-                  <td key={index}>
+                  <td key={index}
+                  className="border p-1">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}
-                <td>
-                  <Link to={"/crud/editoras/" + row.original.id_editora}>
-                    Edit
+                <td className="border p-1">
+                  <Link to={"/crud/editoras/" + row.original.id_editora}
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded">
+                    Editar
                   </Link>
                   <button
                     onClick={() => handleDelete(row.original.id_editora)}
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-1 rounded"
                   >
                     Borrar
                   </button>
@@ -117,59 +150,46 @@ import {
         </table>
   
         <button
-          onClick={() => table.setPageIndex(0)}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Primer Página
-        </button>
-        <button
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Página Anterior
-        </button>
-        <button
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Página Siguiente
-        </button>
-        <button
-          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-          disabled={!table.getCanNextPage()}
-        >
-          Última Página
-        </button>
-        <span className="flex items-center gap-1">
-          <div>Page</div>
-          <strong>
-            {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
-          </strong>
-        </span>
-        <span className="flex items-center gap-1">
-          | Go to page:
-          <input
-            type="number"
-            defaultValue={table.getState().pagination.pageIndex + 1}
-            onChange={(e) => {
-              const page = e.target.value ? Number(e.target.value) - 1 : 0;
-              table.setPageIndex(page);
-            }}
-            className="border p-1 rounded w-16"
-          />
-        </span>
-        <select
-          value={table.getState().pagination.pageSize}
-          onChange={(e) => {
-            table.setPageSize(Number(e.target.value));
-          }}
-        >
-          {[10, 20, 30, 40, 50].map((pageSize) => (
-            <option key={pageSize} value={pageSize}>
-              Show {pageSize}
-            </option>
-          ))}
-        </select>
+        onClick={() => table.setPageIndex(0)}
+        disabled={!table.getCanPreviousPage()}
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      >
+        {" "}
+        Primer Página{" "}
+      </button>{" "}
+      <button
+        onClick={() => table.previousPage()}
+        disabled={!table.getCanPreviousPage()}
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      >
+        {" "}
+        Página Anterior{" "}
+      </button>{" "}
+      <button
+        onClick={() => table.nextPage()}
+        disabled={!table.getCanNextPage()}
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      >
+        {" "}
+        Página Siguiente{" "}
+      </button>{" "}
+      <button
+        onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+        disabled={!table.getCanNextPage()}
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      >
+        {" "}
+        Última Página{" "}
+      </button>{" "}
+      <span className="flex items-center gap-1">
+        {" "}
+        <div>Página </div>{" "}
+        <strong>
+          {" "}
+          {table.getState().pagination.pageIndex + 1} de {table.getPageCount()}{" "}
+        </strong>{" "}
+      </span>{" "}
+        
   
         <div className="h-4" />
       </div>
