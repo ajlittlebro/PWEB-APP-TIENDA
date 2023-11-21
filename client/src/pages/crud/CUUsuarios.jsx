@@ -15,7 +15,8 @@ function CUUsuarios() {
     setValue,
     formState: { errors },
   } = useForm();
-  const { createUsuario, getUsuario, updateUsuario,  setDataLoaded } = useUsuarios();
+  const { createUsuario, getUsuario, updateUsuario, setDataLoaded } =
+    useUsuarios();
   const { roles, getRoles } = useRoles();
   const navigate = useNavigate();
   const params = useParams();
@@ -32,7 +33,7 @@ function CUUsuarios() {
           setValue("nombre", usuario.nombre);
           setValue("correo", usuario.correo);
           setValue("contrasena", usuario.contrasena);
-          setIdUsuario(usuario.id_usuario)
+          setIdUsuario(usuario.id_usuario);
           setSelectedRol({
             value: usuario.id_rol,
             label: usuario.rol,
@@ -41,23 +42,16 @@ function CUUsuarios() {
       }
     }
 
-
     async function loadRoles() {
       try {
-       
         await getRoles();
       } catch (error) {
         console.error(error);
       }
     }
     loadRoles();
-    loadUsuario()
-  }, [
-    params.id,
-    setValue,
-    getRoles,
-    getUsuario,
-  ]);
+    loadUsuario();
+  }, [params.id, setValue, getRoles, getUsuario]);
 
   const onSubmit = handleSubmit(async (data) => {
     const dataValid = {
@@ -85,10 +79,17 @@ function CUUsuarios() {
   });
 
   return (
-    <div>
-      <form onSubmit={onSubmit}>
-
-        {idUsuario !== null && <label>ID de usuario: {idUsuario}</label>}
+    <div className="w-full max-w-md mx-auto">
+      <form
+        onSubmit={onSubmit}
+        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+      >
+        {idUsuario !== null && (
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            ID de usuario: {idUsuario}
+          </label>
+        )}
+        <h3 className="block text-gray-700 text-sm font-bold mb-2">Rol</h3>
         <Select
           {...register("id_rol", { required: true })}
           value={selectedRol}
@@ -101,28 +102,38 @@ function CUUsuarios() {
             label: rol.rol,
           }))}
           isSearchable
+          className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
         />
-
+        <h3 className="block text-gray-700 text-sm font-bold mb-2">Nombre</h3>
         <input
           type="text"
           placeholder="Nombre"
           {...register("nombre", { required: true })}
           autoFocus
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
+        <h3 className="block text-gray-700 text-sm font-bold mb-2">Correo</h3>
         <input
           type="text"
           placeholder="Correo"
           {...register("correo", { required: true })}
           autoFocus
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
+        <h3 className="block text-gray-700 text-sm font-bold mb-2">
+          Contraseña
+        </h3>
         <input
           type="text"
           placeholder="Contrasena"
           {...register("contrasena", { required: true })}
           autoFocus
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
         {errors.nombre && <p>Nombre es requerido</p>}
-        <button>Guardar</button>
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4">
+          Guardar
+        </button>
       </form>
     </div>
   );

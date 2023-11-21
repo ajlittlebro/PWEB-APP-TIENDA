@@ -16,7 +16,7 @@ function CUNoticias() {
   const { createNoticia, getNoticia, updateNoticia } = useNoticias();
   const navigate = useNavigate();
   const params = useParams();
-  const [imagenUrl, setImagenUrl] = useState(""); 
+  const [imagenUrl, setImagenUrl] = useState("");
   const [idNoticia, setIdNoticia] = useState(null);
   const [nombreUsuario, setNombreUsuario] = useState(null);
 
@@ -74,40 +74,62 @@ function CUNoticias() {
   });
 
   return (
-    <div>
-      <form onSubmit={onSubmit}>
-      
+    <div className="w-full max-w-md mx-auto">
+      <form
+        onSubmit={onSubmit}
+        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+      >
         {imagenUrl && <img src={imagenUrl} alt="Imagen" />}
-
- 
-        {idNoticia !== null && <label>ID de la Noticia: {idNoticia}</label>}
-
-       
-        {nombreUsuario !== null && (
-          <label>Nombre de Usuario: {nombreUsuario}</label>
+        {idNoticia !== null && (
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            ID de la Noticia: {idNoticia}
+          </label>
         )}
+        {nombreUsuario !== null && (
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Nombre de Usuario: {nombreUsuario}
+          </label>
+        )}
+        <h3 className="block text-gray-700 text-sm font-bold mb-2">Título</h3>
         <input
           type="text"
           placeholder="Titulo"
           {...register("titulo", { required: true })}
           autoFocus
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
         {errors.titulo && <p>Título es requerido</p>}
+        <h3 className="block text-gray-700 text-sm font-bold mb-2">
+          Descripción
+        </h3>
         <textarea
           rows="3"
           placeholder="Descripción"
           {...register("descripcion", { required: true })}
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         ></textarea>
         {errors.descripcion && <p>Descripción es requerida</p>}
-        <input type="file" onChange={onFileChange} />
-        {errors.imagen && <p>Imagen es requerida</p>}
+        <input
+          type="file"
+          onChange={onFileChange}
+          className="block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mt-4"
+        />
+        {errors.imagen && (
+          <p className="text-red-500 text-xs italic mt-2">
+            Imagen es requerida
+          </p>
+        )}
+        <h3 className="block text-gray-700 text-sm font-bold mb-2">Fecha</h3>
         <input
           type="date"
           placeholder="Fecha"
           {...register("fecha", { required: true })}
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
         {errors.fecha && <p>Fecha es requerida</p>}
-        <button>Guardar</button>
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4">
+          Guardar
+        </button>
       </form>
     </div>
   );

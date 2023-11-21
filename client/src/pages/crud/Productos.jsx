@@ -9,7 +9,7 @@ import {
 import { useProductos } from "../../context/ProductosContext";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import "../../css/tablas.css"
+import "../../css/tablas.css";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import React from "react";
@@ -40,7 +40,8 @@ function Productos() {
     },
     {
       header: "DESARROLLADOR",
-      accessorFn: (row) => `${row.id_desarrollador} ${row.nombre_desarrollador}`,
+      accessorFn: (row) =>
+        `${row.id_desarrollador} ${row.nombre_desarrollador}`,
     },
     {
       header: "PLATAFORMA",
@@ -69,6 +70,7 @@ function Productos() {
       header: "DESCRIPCIÓN",
       accessorKey: "descripcion",
     },
+    ,
     /*{
       header: "IMAGEN",
       accessorKey: "imagen",
@@ -80,8 +82,7 @@ function Productos() {
         }
         return null;
       },
-    }*/,
-    {
+    }*/ {
       header: "CREADO",
       accessorKey: "creadaEn",
       cell: (info) => {
@@ -128,16 +129,18 @@ function Productos() {
 
   return (
     <div>
-      <h1 class="text-4xl font-bold text-gray-800 mb-4">
-        Productos
-      </h1>
-      <Link to={"/crud/productos/crear"}
-      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">Crear</Link>
+      <h1 className="text-4xl font-bold text-gray-800 mb-4">Productos</h1>
+      <Link
+        to={"/crud/productos/crear"}
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4"
+      >
+        Crear
+      </Link>
       <input
         type="text"
         value={filtering}
         onChange={(e) => setFiltering(e.target.value)}
-        class="border-2 border-gray-300 bg-white h-10 px-5 rounded-lg text-sm focus:outline-none"
+        className="border-2 border-gray-300 bg-white h-10 px-5 rounded-lg text-sm focus:outline-none"
         placeholder="Búsqueda"
       />
       <select
@@ -145,7 +148,7 @@ function Productos() {
         onChange={(e) => {
           table.setPageSize(Number(e.target.value));
         }}
-        class="border border-gray-300 bg-white h-10 px-5 rounded-lg text-sm focus:outline-none mt-4"
+        className="border border-gray-300 bg-white h-10 px-5 rounded-lg text-sm focus:outline-none mt-4"
       >
         {[10, 20, 30, 40, 50].map((pageSize) => (
           <option key={pageSize} value={pageSize}>
@@ -195,24 +198,28 @@ function Productos() {
           {table.getRowModel().rows.map((row) => (
             <tr key={row.id}>
               {row.getVisibleCells().map((cell, index) => (
-                <td key={index}
-                className="border p-1">
+                <td key={index} className="border p-1">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
               <td className="border p-1">
-              <Link to={"/crud/productos/" + row.original.id_producto}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded ">Editar</Link>
-                <button onClick={() => handleDelete(row.original.id_producto)}
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-1 rounded">
-                 Borrar
+                <Link
+                  to={"/crud/productos/" + row.original.id_producto}
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded "
+                >
+                  Editar
+                </Link>
+                <button
+                  onClick={() => handleDelete(row.original.id_producto)}
+                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-1 rounded"
+                >
+                  Borrar
                 </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-
       <button
         onClick={() => table.setPageIndex(0)}
         disabled={!table.getCanPreviousPage()}
@@ -253,8 +260,6 @@ function Productos() {
           {table.getState().pagination.pageIndex + 1} de {table.getPageCount()}{" "}
         </strong>{" "}
       </span>{" "}
-      
-
       <div className="h-4" />
     </div>
   );

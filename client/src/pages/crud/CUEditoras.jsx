@@ -13,7 +13,8 @@ function CUEditoras() {
     setValue,
     formState: { errors },
   } = useForm();
-  const { createEditora, getEditora, updateEditora,  setDataLoaded } = useEditoras();
+  const { createEditora, getEditora, updateEditora, setDataLoaded } =
+    useEditoras();
   const navigate = useNavigate();
   const params = useParams();
   const [idEditora, setIdEditora] = useState(null);
@@ -57,18 +58,30 @@ function CUEditoras() {
   });
 
   return (
-    <div>
-      <form onSubmit={onSubmit}>
-        {idEditora !== null && <label>ID de la editora: {idEditora}</label>}
+    <div className="w-full max-w-md mx-auto">
+      <form
+        onSubmit={onSubmit}
+        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+      >
+        {idEditora !== null && (
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            ID de la editora: {idEditora}
+          </label>
+        )}
 
         <input
           type="text"
           placeholder="Nombre"
           {...register("nombre", { required: true })}
           autoFocus
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
-        {errors.nombre && <p>Nombre es requerido</p>}
-        <button>Guardar</button>
+        {errors.nombre && (
+          <p className="text-red-500 text-xs italic">Nombre es requerido</p>
+        )}
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          Guardar
+        </button>
       </form>
     </div>
   );

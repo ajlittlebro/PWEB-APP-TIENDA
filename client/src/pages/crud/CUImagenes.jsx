@@ -31,7 +31,7 @@ function CUImagenes() {
           setValue("id_producto", imagen.id_producto || "");
           setValue("id_imagen", imagen.id_imagen);
           setImagenUrl(imagen.imagen);
-          setIdImagen(imagen.id_imagen)
+          setIdImagen(imagen.id_imagen);
           setSelectedProducto({
             value: imagen.id_producto,
             label: imagen.nombre_producto,
@@ -81,11 +81,18 @@ function CUImagenes() {
   });
 
   return (
-    <div>
-      <form onSubmit={onSubmit}>
+    <div className="w-full max-w-md mx-auto">
+      <form
+        onSubmit={onSubmit}
+        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+      >
         {imagenUrl && <img src={imagenUrl} alt="Imagen" />}
 
-        {idImagen !== null && <label>ID de la imagen: {idImagen}</label>}
+        {idImagen !== null && (
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            ID de la imagen: {idImagen}
+          </label>
+        )}
         <Select
           {...register("id_producto", { required: true })}
           value={selectedProducto}
@@ -98,11 +105,22 @@ function CUImagenes() {
             label: producto.nombre,
           }))}
           isSearchable
+          className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
         />
-        <input type="file" onChange={onFileChange} />
-        {errors.imagen && <p>Imagen es requerida</p>}
+        <input
+          type="file"
+          onChange={onFileChange}
+          className="block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mt-4"
+        />
+        {errors.imagen && (
+          <p className="text-red-500 text-xs italic mt-2">
+            Imagen es requerida
+          </p>
+        )}
 
-        <button>Guardar</button>
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4">
+          Guardar
+        </button>
       </form>
     </div>
   );

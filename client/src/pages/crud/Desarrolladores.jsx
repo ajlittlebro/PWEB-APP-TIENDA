@@ -64,18 +64,22 @@ function Desarrolladores() {
 
   return (
     <div>
-      <h1 class="text-4xl font-bold text-gray-800 mb-4">Desarrolladores</h1>
-      <Link to={"/crud/desarrolladores/crear"}
-      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">Crear</Link>
+      <h1 className="text-4xl font-bold text-gray-800 mb-4">Desarrolladores</h1>
+      <Link
+        to={"/crud/desarrolladores/crear"}
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4"
+      >
+        Crear
+      </Link>
       <input
         type="text"
         value={filtering}
         onChange={(e) => setFiltering(e.target.value)}
-        class="border-2 border-gray-300 bg-white h-10 px-5 rounded-lg text-sm focus:outline-none"
+        className="border-2 border-gray-300 bg-white h-10 px-5 rounded-lg text-sm focus:outline-none"
         placeholder="Búsqueda"
       />
       <select
-      class="border border-gray-300 bg-white h-10 px-5 rounded-lg text-sm focus:outline-none mt-4"
+        className="border border-gray-300 bg-white h-10 px-5 rounded-lg text-sm focus:outline-none mt-4"
         value={table.getState().pagination.pageSize}
         onChange={(e) => {
           table.setPageSize(Number(e.target.value));
@@ -150,12 +154,10 @@ function Desarrolladores() {
           ))}
         </tbody>
       </table>
-
       <button
         onClick={() => table.setPageIndex(0)}
         disabled={!table.getCanPreviousPage()}
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-
       >
         Primer Página
       </button>
@@ -186,9 +188,6 @@ function Desarrolladores() {
           {table.getState().pagination.pageIndex + 1} de {table.getPageCount()}
         </strong>
       </span>
-      
-      
-
       <div className="h-4" />
     </div>
   );

@@ -63,22 +63,26 @@ function Plataformas() {
 
   return (
     <div>
-      <h1 class="text-4xl font-bold text-gray-800 mb-4">Plataformas</h1>
-      <Link to={"/crud/plataformas/crear"}
-      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">Crear</Link>
+      <h1 className="text-4xl font-bold text-gray-800 mb-4">Plataformas</h1>
+      <Link
+        to={"/crud/plataformas/crear"}
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4"
+      >
+        Crear
+      </Link>
       <input
         type="text"
         value={filtering}
         onChange={(e) => setFiltering(e.target.value)}
         placeholder="Búsqueda"
-        class="border-2 border-gray-300 bg-white h-10 px-5 rounded-lg text-sm focus:outline-none"
+        className="border-2 border-gray-300 bg-white h-10 px-5 rounded-lg text-sm focus:outline-none"
       />
       <select
         value={table.getState().pagination.pageSize}
         onChange={(e) => {
           table.setPageSize(Number(e.target.value));
         }}
-        class="border border-gray-300 bg-white h-10 px-5 rounded-lg text-sm focus:outline-none mt-4"
+        className="border border-gray-300 bg-white h-10 px-5 rounded-lg text-sm focus:outline-none mt-4"
       >
         {[10, 20, 30, 40, 50].map((pageSize) => (
           <option key={pageSize} value={pageSize}>
@@ -133,8 +137,10 @@ function Plataformas() {
                 </td>
               ))}
               <td className="border p-1">
-                <Link to={"/crud/plataformas/" + row.original.id_plataforma}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded">
+                <Link
+                  to={"/crud/plataformas/" + row.original.id_plataforma}
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded"
+                >
                   Edit
                 </Link>
                 <button
@@ -188,7 +194,6 @@ function Plataformas() {
           {table.getState().pagination.pageIndex + 1} de {table.getPageCount()}{" "}
         </strong>{" "}
       </span>{" "}
-
       <div className="h-4" />
     </div>
   );

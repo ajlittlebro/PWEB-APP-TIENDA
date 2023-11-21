@@ -22,11 +22,10 @@ function CUGeneros() {
     async function loadGenero() {
       if (params.id) {
         const genero = await getGenero(params.id);
-        
+
         setValue("id_genero", genero.id_genero);
         setValue("nombre", genero.nombre);
         setIdGenero(genero.id_genero);
-        
       }
     }
     loadGenero();
@@ -34,12 +33,12 @@ function CUGeneros() {
 
   const onSubmit = handleSubmit(async (data) => {
     const dataValid = {
-        ...data}
-    
+      ...data,
+    };
 
     try {
       if (params.id) {
-        await updateGenero(params.id,dataValid);
+        await updateGenero(params.id, dataValid);
       } else {
         await createGenero(dataValid);
       }
@@ -58,18 +57,30 @@ function CUGeneros() {
   });
 
   return (
-    <div>
-      <form onSubmit={onSubmit}>
-        {idGenero !== null && <label>ID del género: {idGenero}</label>}
+    <div className="w-full max-w-md mx-auto">
+      <form
+        onSubmit={onSubmit}
+        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+      >
+        {idGenero !== null && (
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            ID del género: {idGenero}
+          </label>
+        )}
 
         <input
           type="text"
           placeholder="Nombre"
           {...register("nombre", { required: true })}
           autoFocus
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
-        {errors.nombre && <p>Nombre es requerido</p>}
-        <button>Guardar</button>
+        {errors.nombre && (
+          <p className="text-red-500 text-xs italic">Nombre es requerido</p>
+        )}
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          Guardar
+        </button>
       </form>
     </div>
   );
