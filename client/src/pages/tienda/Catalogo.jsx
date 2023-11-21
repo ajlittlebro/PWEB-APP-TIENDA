@@ -4,6 +4,7 @@ import { usePlataformas } from "../../context/PlataformasContext";
 import { useGeneros } from "../../context/GenerosContext";
 import { useProductosGeneros } from "../../context/ProductosGenerosContext";
 import { useWishlist } from "../../context/WishlistContext";
+import { useCarrito } from "../../context/CarritoContext";
 import { Link } from "react-router-dom";
 
 function Catalogo() {
@@ -14,12 +15,14 @@ function Catalogo() {
   const [filtroGeneros, setFiltroGeneros] = useState([]);
   const [filtroNombre, setFiltroNombre] = useState("");
   const [filtroNombrePlataforma, setFiltroNombrePlataforma] = useState("");
-  const [ordenSeleccionado, setOrdenSeleccionado] = useState("precioAsc");
+  const [ordenSeleccionado, setOrdenSeleccionado] = useState("fechaReciente");
   const { plataformas, getPlataformas } = usePlataformas();
   const { generos, getGeneros } = useGeneros();
   const { getProductosGeneros, productosGeneros } = useProductosGeneros();
   const [filtroNombreGenero, setFiltroNombreGenero] = useState("");
   const { addToWishlistItem } = useWishlist();
+  const { addToCarritoItem } = useCarrito();
+
 
   useEffect(() => {
     async function loadProductos() {
@@ -114,7 +117,7 @@ function Catalogo() {
     setFiltroNombre("");
     setFiltroNombrePlataforma("");
     setFiltroNombreGenero("");
-    setOrdenSeleccionado("precioAsc");
+    setOrdenSeleccionado("fechaReciente");
   };
 
   const handleAddToWishlist = (productoId) => {
@@ -293,18 +296,22 @@ function Catalogo() {
         <button onClick={handleRestablecerFiltros}>Restablecer Filtros</button>
       </div>
       {filtrarProductos().map((producto) => (
-        //<Link to={`/tienda/catalogo/${producto.id_producto}`} >
-        <div key={producto.id_producto}>
-          {producto.imagen && <img src={producto.imagen} alt="Imagen" />}
-          <h2>{producto.precio}</h2>
-          <p>{producto.nombre}</p>
-          <p>{producto.nombre_plataforma}</p>
-          <button onClick={() => handleAddToWishlist(producto.id_producto)}>
-            Agregar a la Wishlist
-          </button>
-        </div>
-      //</Link>
-      ))}
+  <div key={producto.id_producto}>
+    <Link to={`/tienda/catalogo/producto/${producto.id_producto}`}>
+      {producto.imagen && <img src={producto.imagen} alt="Imagen" />}
+    </Link>
+    <h2>{producto.precio}</h2>
+    <p>{producto.nombre}</p>
+    <p>{producto.nombre_plataforma}</p>
+    <button onClick={() => addToCarritoItem(producto.id_producto)}>
+      Agregar al Carrito
+    </button>
+    <button onClick={() => handleAddToWishlist(producto.id_producto)}>
+      Agregar a la Wishlist
+    </button>
+  </div>
+))}
+
     </div>
   );
 }

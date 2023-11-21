@@ -39,6 +39,9 @@ import NoticiasTienda from "./pages/tienda/NoticiasTienda";
 import Catalogo from "./pages/tienda/Catalogo";
 import WishlistPage from "./pages/tienda/Wishlist";
 import { WishlistProvider } from "./context/WishlistContext";
+import { CarritoProvider } from "./context/CarritoContext";
+import CarritoPage from "./pages/tienda/Carrito";
+import ProductoDetalle from "./pages/tienda/Producto";
 
 function App() {
   return (
@@ -54,6 +57,7 @@ function App() {
         <RolProvider>
         <ProductosGenerosProvider>
         <WishlistProvider>
+        <CarritoProvider>
         <BrowserRouter>
         <Routes>
           <Route path="/" element={<CrudLogin />}></Route>
@@ -94,9 +98,12 @@ function App() {
             <Route path="/tienda/noticias" element={<NoticiasTienda />}></Route>
             <Route path="/tienda/catalogo" element={<Catalogo />}></Route>
             <Route path="/tienda/wishlist" element={<WishlistPage />}></Route>
+            <Route path="/tienda/carrito" element={<CarritoPage />}></Route>
+            <Route path="/tienda/catalogo/producto/:id" element={<ProductoDetalle />}></Route>
           </Route>
         </Routes>
       </BrowserRouter>
+        </CarritoProvider>
         </WishlistProvider>
         </ProductosGenerosProvider>
         </RolProvider>
