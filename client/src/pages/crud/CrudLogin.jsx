@@ -16,7 +16,7 @@ function Login() {
   });
 
   useEffect(() => {
-    if (isAuthenticated) navigate("/crud/dashboard");
+    if (isAuthenticated) navigate("/tienda/catalogo");
   }, [isAuthenticated]);
 
   return (
