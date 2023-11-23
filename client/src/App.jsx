@@ -44,6 +44,8 @@ import CarritoPage from "./pages/tienda/Carrito";
 import ProductoDetalle from "./pages/tienda/Producto";
 import AboutUs from "./pages/tienda/AboutUs";
 import Soporte from "./pages/tienda/Soporte";
+import AboutUs from "./pages/tienda/AboutUs";
+import Soporte from "./pages/tienda/Soporte";
 function App() {
   return (
     <AuthProvider>
@@ -104,6 +106,8 @@ function App() {
             <Route path="/tienda/catalogo/producto/:id" element={<ProductoDetalle />}></Route>
             <Route path="/tienda/sobrenosotros" element={<AboutUs />}></Route>
             <Route path="/tienda/soporte" element={<Soporte />}></Route>
+            <Route path="/tienda/sobrenosotros" element={<AboutUs />}></Route>
+<Route path="/tienda/soporte" element={<Soporte />}></Route>
         </Routes>
       </BrowserRouter>
         </CarritoProvider>
