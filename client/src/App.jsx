@@ -42,7 +42,8 @@ import { WishlistProvider } from "./context/WishlistContext";
 import { CarritoProvider } from "./context/CarritoContext";
 import CarritoPage from "./pages/tienda/Carrito";
 import ProductoDetalle from "./pages/tienda/Producto";
-
+import AboutUs from "./pages/tienda/AboutUs";
+import Soporte from "./pages/tienda/Soporte";
 function App() {
   return (
     <AuthProvider>
@@ -62,7 +63,7 @@ function App() {
         <Routes>
           <Route path="/" element={<CrudLogin />}></Route>
           <Route path="/crud/login" element={<CrudLogin />}></Route>
-          <Route element={<RutaProtegida />}>
+          
             <Route path="/crud/tablas" element={<Tablas />}></Route>
             <Route path="/crud/dashboard" element={<Dashboard />}></Route>
             <Route path="/crud/generos" element={<Generos />}></Route>
@@ -100,7 +101,8 @@ function App() {
             <Route path="/tienda/wishlist" element={<WishlistPage />}></Route>
             <Route path="/tienda/carrito" element={<CarritoPage />}></Route>
             <Route path="/tienda/catalogo/producto/:id" element={<ProductoDetalle />}></Route>
-          </Route>
+            <Route path="/tienda/sobrenosotros" element={<AboutUs />}></Route>
+            <Route path="/tienda/soporte" element={<Soporte />}></Route>
         </Routes>
       </BrowserRouter>
         </CarritoProvider>
