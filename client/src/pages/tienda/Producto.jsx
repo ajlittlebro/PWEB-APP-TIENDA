@@ -38,18 +38,25 @@ function ProductoDetalle() {
     <div>
       <div class="bg-gray-800 p-4">
     <nav class="container mx-auto px-6 py-4">
-        <ul class="flex space-x-8">
-            <li>
-                <a href="/tienda/noticias" class="text-white hover:text-gray-300">Noticias</a>
-            </li>
+    <ul class="flex space-x-8">
             <li>
                 <a href="/tienda/catalogo" class="text-white hover:text-gray-300">Catálogo</a>
             </li>
+            <li>
+                <a href="/tienda/sobrenosotros" class="text-white hover:text-gray-300">Sobre Nosotros</a>
+            </li>
+            <li>
+                <a href="/tienda/noticias" class="text-white hover:text-gray-300">Noticias</a>
+            </li>
+            
             <li>
                 <a href="/tienda/wishlist" class="text-white hover:text-gray-300">Wishlist</a>
             </li>
             <li>
                 <a href="/tienda/carrito" class="text-white hover:text-gray-300">Carrito</a>
+            </li>
+            <li>
+                <a href="/tienda/soporte" class="text-white hover:text-gray-300">Soporte</a>
             </li>
         </ul>
     </nav>

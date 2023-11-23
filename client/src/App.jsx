@@ -60,6 +60,7 @@ function App() {
         <CarritoProvider>
         <BrowserRouter>
         <Routes>
+          
           <Route path="/" element={<CrudLogin />}></Route>
           <Route path="/crud/login" element={<CrudLogin />}></Route>
           <Route element={<RutaProtegida />}>
